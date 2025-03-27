@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class RoboReconhecimento extends RoboAereo {
     boolean modoReconhecimento; // move robô para posição mais alta
 
-    public RoboReconhecimento(String nome, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, boolean modoReconhecimento) {
-        super(nome, posicaoX, posicaoY, altitude, altitudeMaxima);
+    public RoboReconhecimento(String nome, String direcao, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, boolean modoReconhecimento) {
+        super(nome, direcao, posicaoX, posicaoY, altitude, altitudeMaxima);
         this.modoReconhecimento = false;
     }
 

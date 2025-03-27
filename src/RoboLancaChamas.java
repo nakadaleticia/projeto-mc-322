@@ -8,8 +8,8 @@ funções
 public class RoboLancaChamas extends RoboTerrestre {
     int combustivel;
 
-    public RoboLancaChamas(String nome, int posicaoX, int posicaoY, int velocidade, int velocidadeMaxima, int combustivel) {
-        super(nome, posicaoX, posicaoY, velocidade, velocidadeMaxima);
+    public RoboLancaChamas(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima, int combustivel) {
+        super(nome, direcao, posicaoX, posicaoY, velocidadeMaxima);
         this.combustivel = combustivel;
     }
 

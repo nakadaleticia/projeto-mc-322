@@ -1,19 +1,27 @@
 public class RoboTerrestre extends Robo {
-    int velocidade;
     int velocidadeMaxima;
 
-    public RoboTerrestre(String nome, int posicaoX, int posicaoY, int velocidade, int velocidadeMaxima) {
-        super(nome, posicaoX, posicaoY);
-        this.velocidade = velocidade;
+    public RoboTerrestre(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima) {
+        super(nome, direcao, posicaoX, posicaoY);
         this.velocidadeMaxima = velocidadeMaxima;
     }
 
-    @Override
-    public void mover(int deltaX, int deltaY) {
+    private int calcularVelocidade(int deltaX, int deltaY, int tempo) {
+        double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY); // calcula distância que robô deve percorrer
+        double velocidade = distancia / tempo;
+
+        return (int) velocidade; // truncamento para remover parte decimal
+    }
+
+    // variável "tempo" foi adicionada para calcular a velocidade do robo; não é possível fazer sobrescrita
+    public void mover(int deltaX, int deltaY, int tempo) {
+        int velocidade = calcularVelocidade(deltaX, deltaY, tempo);
+
         if (velocidade > velocidadeMaxima) {
             System.out.println("velocidade do robô ultrapassa limite permitido");
         } else {
             super.mover(deltaX, deltaY);
+            System.out.println(nome + " se moveu com velocidade " + velocidade);
         }
     }
 }

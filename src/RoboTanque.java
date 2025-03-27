@@ -11,15 +11,15 @@ public class RoboTanque extends RoboTerrestre {
     int blindagem; // capacidade de absorção de dano
     boolean modoDefesa;
 
-    public RoboTanque(String nome, int posicaoX, int posicaoY, int velocidade, int velocidadeMaxima, int misseis, int blindagem, boolean modoDefesa) {
-        super(nome, posicaoX, posicaoY, velocidade, velocidadeMaxima);
+    public RoboTanque(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima, int misseis, int blindagem, boolean modoDefesa) {
+        super(nome, direcao, posicaoX, posicaoY, velocidadeMaxima);
         this.misseis = misseis;
         this.blindagem = blindagem;
         this.modoDefesa = false; // robô inicia com modo defesa desligado
     }
 
     public void dispararMissil() {
-        if (misseis < 0) {
+        if (misseis <= 0) {
             System.out.println(nome + " está sem misseis disponíveis");
         } else {
             misseis--;
@@ -45,7 +45,7 @@ public class RoboTanque extends RoboTerrestre {
             System.out.println(nome + " foi destruído");
         } else {
             blindagem -= danoEfetivo;
-            System.out.println(nome + " recebeu dano");
+            System.out.println(nome + " recebeu " + dano + " de dano");
         }
     }
 }

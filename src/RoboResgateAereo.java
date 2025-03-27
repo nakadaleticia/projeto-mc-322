@@ -10,8 +10,8 @@ public class RoboResgateAereo extends RoboAereo {
     int capacidadeVitimas;
     boolean modoEmergencia;
 
-    public RoboResgateAereo(String nome, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, int capacidadeVitimas, int modoEmergencia) {
-        super(nome, posicaoX, posicaoY, altitude, altitudeMaxima);
+    public RoboResgateAereo(String nome, String direcao, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, int capacidadeVitimas, int modoEmergencia) {
+        super(nome, direcao, posicaoX, posicaoY, altitude, altitudeMaxima);
         this.capacidadeVitimas = capacidadeVitimas;
         this.modoEmergencia = false; // robô inicia com modo emergência desativado
     }
