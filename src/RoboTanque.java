@@ -1,3 +1,11 @@
+/*
+esta classe de robô é responsável pela defesa
+
+funções:
+- disparar misseis
+- absorver dano quando estiver com o modo defesa ativado
+ */
+
 public class RoboTanque extends RoboTerrestre {
     int misseis;
     int blindagem; // capacidade de absorção de dano

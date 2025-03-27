@@ -1,3 +1,10 @@
+/*
+esta classe de robô é responsável por lançar chamas sobre os inimigos
+
+funções
+- lançar chamas
+ */
+
 public class RoboLancaChamas extends RoboTerrestre {
     int combustivel;
 

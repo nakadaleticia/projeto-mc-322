@@ -1,3 +1,11 @@
+/*
+esta classe de robô é responsável por realizar resgates de vítimas
+
+funções:
+- resgatar vítimas
+- evacuar da área de perigo quando estiver com o modo defesa ativado (altitude máxima)
+ */
+
 public class RoboResgateAereo extends RoboAereo {
     int capacidadeVitimas;
     boolean modoEmergencia;
