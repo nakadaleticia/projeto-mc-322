@@ -15,8 +15,9 @@ public class Ambiente {
     }
 
     public void adicionarRobo(Robo r) {
+        r.setAmbiente(this); // para verificação dos limites
         robosAtivos.add(r); // adiciona robô à lista de robôs ativos
-        System.out.println("robô " + r.nome + " adicionado ao ambiente");
+        System.out.println("robô " + r.nome + " adicionado ao ambiente em (" + r.posicaoX + ", " + r.posicaoY + ") " + r.direcao);
     }
 
     public ArrayList<Robo> encontrarRobosAtivos() {

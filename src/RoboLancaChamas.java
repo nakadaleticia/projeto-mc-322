@@ -24,6 +24,6 @@ public class RoboLancaChamas extends RoboTerrestre {
 
     public void recarregarCombustivel(int numCombustivel) {
         combustivel += numCombustivel;
-        System.out.println(nome + " recarregou combustível");
+        System.out.println(nome + " recarregou combustível. combustível: " + combustivel);
     }
 }

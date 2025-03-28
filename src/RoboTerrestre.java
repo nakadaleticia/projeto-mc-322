@@ -18,7 +18,7 @@ public class RoboTerrestre extends Robo {
         int velocidade = calcularVelocidade(deltaX, deltaY, tempo);
 
         if (velocidade > velocidadeMaxima) {
-            System.out.println("velocidade do robô ultrapassa limite permitido");
+            System.out.println("velocidade de " + nome + " ultrapassa limite permitido");
         } else {
             super.mover(deltaX, deltaY);
             System.out.println(nome + " se moveu com velocidade " + velocidade);

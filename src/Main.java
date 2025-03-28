@@ -7,7 +7,7 @@ public class Main {
         RoboLancaChamas chama = new RoboLancaChamas("foguinho", "Leste", 11, 10, 2, 5); // ao lado do tanque
 
         // robôs aéreos
-        RoboResgateAereo resgate = new RoboResgateAereo("águia-resgate", "Sul", 5, 5, 0, 50, 3, 0);
+        RoboResgateAereo resgate = new RoboResgateAereo("águia-resgate", "Sul", 5, 5, 0, 50, 3, false);
         RoboReconhecimento recon = new RoboReconhecimento("falcão-recon", "Oeste", 20, 20, 10, 40, false);
 
         // adiciona ao ambiente
@@ -36,13 +36,13 @@ public class Main {
         System.out.println("\n--- movimentação aérea ---");
         resgate.subir(60); // tenta subir além do limite
         resgate.evacuacaoDeEmergencia(); // sem modo ativado
-        resgate.ativarModoEmergencia();
+        resgate.ativarModoEmergencia(); // modo ativado
         resgate.evacuacaoDeEmergencia();
         resgate.carregarVitima();
         resgate.carregarVitima();
         resgate.carregarVitima(); // excede capacidade
         resgate.descer(20);
-        resgate.exibirPosicao();
+        resgate.exibirPosicao(); // testa exibirPosicao para robôs aereos
 
         System.out.println("\n--- testando reconhecimento ---");
         RoboReconhecimento novoRecon = new RoboReconhecimento("espião", "Norte", 50, 50, 10, 40, false);
@@ -55,14 +55,22 @@ public class Main {
         novoRecon.fazerReconhecimento(ambiente);
 
         System.out.println("\n--- teste de limites do ambiente ---");
-        RoboTanque limite = new RoboTanque("tanque-limite", "Leste", 99, 99, 2, 2, 10, false);
+        /* terrestre */
+        RoboTanque limite = new RoboTanque("terra-limite", "Leste", 99, 99, 2, 2, 10, false);
         ambiente.adicionarRobo(limite);
-        limite.mover(5, 5, 1); // fora dos limites
+        limite.mover(5, 5, 1); // fora dos limites (104, 104)
+
+        /* aéreo */
+        RoboResgateAereo altitudeTeste = new RoboResgateAereo("aereo-limite", "Norte", 50, 50, 45, 50, 1, false);
+        ambiente.adicionarRobo(altitudeTeste);
+        altitudeTeste.subir(10); // já está em 45, max = 50 → só pode subir até 50
+        altitudeTeste.mover(100, 0); // x = 150 → fora
+        altitudeTeste.descer(100); // vai tentar descer até altitude negativa (vai para 0)
 
         System.out.println("\n--- verificação de obstáculos ---");
-        tanque.identificarObstaculo(ambiente);
-        recon.identificarObstaculo(ambiente);
-        novoRecon.identificarObstaculo(ambiente);
+        tanque.identificarObstaculo(ambiente); // obstáculo: foguinho em (12, 10)
+        recon.identificarObstaculo(ambiente); // não há obstáculos
+        novoRecon.identificarObstaculo(ambiente); // não há obstáculos
 
         System.out.println("\n--- posições finais ---");
         tanque.exibirPosicao();

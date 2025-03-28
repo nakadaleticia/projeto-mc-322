@@ -27,6 +27,7 @@ public class RoboTanque extends RoboTerrestre {
         }
     }
 
+    // modo defensivo: blindagem aumenta em 10 unidades de defesa e dano efetivo = dano / 2
     public void ativarModoDefensivo() {
         if (!modoDefesa) {
             modoDefesa = true;
@@ -45,7 +46,7 @@ public class RoboTanque extends RoboTerrestre {
             System.out.println(nome + " foi destruído");
         } else {
             blindagem -= danoEfetivo;
-            System.out.println(nome + " recebeu " + dano + " de dano");
+            System.out.println(nome + " recebeu " + dano + " de dano. blindagem: " + blindagem);
         }
     }
 }

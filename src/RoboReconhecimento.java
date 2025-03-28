@@ -5,8 +5,6 @@ funções:
 - reconhecimento (altitude máxima)
  */
 
-import java.util.ArrayList;
-
 public class RoboReconhecimento extends RoboAereo {
     boolean modoReconhecimento; // move robô para posição mais alta
 
@@ -17,9 +15,9 @@ public class RoboReconhecimento extends RoboAereo {
 
     public void ativarModoReconhecimento() {
         if (!modoReconhecimento) {
+            System.out.println("modo reconhecimento ativado. " + nome + " está subindo...");
             subir(altitudeMaxima - altitude); // sobe para altitude máxima
             modoReconhecimento = true;
-            System.out.println("modo reconhecimento ativado");
         } else {
             System.out.println("modo reconhecimento já está ativado");
         }
@@ -27,17 +25,19 @@ public class RoboReconhecimento extends RoboAereo {
 
     public void fazerReconhecimento(Ambiente ambiente) {
 
-        if (!modoReconhecimento || altitude != altitudeMaxima) {
-            System.out.println(nome + " não pode realizar reconhecimento");
+        if (!modoReconhecimento || altitude < altitudeMaxima) {
+            System.out.println(nome + " não pode realizar reconhecimento. ative o modo reconhecimento");
         } else {
             System.out.println("realizando reconhecimento...");
 
             boolean encontrou = false;
             for (Robo r : ambiente.encontrarRobosAtivos()) {
-                encontrou = false;
-
                 if (r != this) {
-                    System.out.println("- " + r.nome + " localizado em (" + r.posicaoX + "; " + r.posicaoY + ")");
+                    if (r instanceof RoboAereo) {
+                        System.out.println("- " + r.nome + " localizado em (" + r.posicaoX + ", " + r.posicaoY + ", " + altitude + ")");
+                    } else {
+                        System.out.println("- " + r.nome + " localizado em (" + r.posicaoX + ", " + r.posicaoY + ")");
+                    }
                 }
             }
 
