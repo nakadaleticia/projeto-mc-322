@@ -45,14 +45,12 @@ public class Main {
         resgate.exibirPosicao(); // testa exibirPosicao para robôs aereos
 
         System.out.println("\n--- testando reconhecimento ---");
-        RoboReconhecimento novoRecon = new RoboReconhecimento("espião", "Norte", 50, 50, 10, 40, false);
-        ambiente.adicionarRobo(novoRecon);
-        novoRecon.fazerReconhecimento(ambiente); // sem ativar modo
-        novoRecon.ativarModoReconhecimento();
-        novoRecon.descer(10); // altitude 30 < max
-        novoRecon.fazerReconhecimento(ambiente); // falha
-        novoRecon.subir(10); // volta ao máximo
-        novoRecon.fazerReconhecimento(ambiente);
+        recon.fazerReconhecimento(ambiente); // sem ativar modo
+        recon.ativarModoReconhecimento();
+        recon.descer(10); // altitude 30 < max
+        recon.fazerReconhecimento(ambiente); // falha
+        recon.subir(10); // volta ao máximo
+        recon.fazerReconhecimento(ambiente);
 
         System.out.println("\n--- teste de limites do ambiente ---");
         /* terrestre */
@@ -70,14 +68,46 @@ public class Main {
         System.out.println("\n--- verificação de obstáculos ---");
         tanque.identificarObstaculo(ambiente); // obstáculo: foguinho em (12, 10)
         recon.identificarObstaculo(ambiente); // não há obstáculos
-        novoRecon.identificarObstaculo(ambiente); // não há obstáculos
+        recon.identificarObstaculo(ambiente); // não há obstáculos
+
+        System.out.println("\n--- teste extra: colisão entre robôs terrestres ---");
+        RoboTanque trator = new RoboTanque("trator", "Sul", 12, 10, 3, 2, 50, false);
+        ambiente.adicionarRobo(trator);
+        trator.mover(-1, 0); // tenta ir para (11, 10), já ocupado por foguinho
+
+        System.out.println("\n--- teste extra: colisão ao subir para altitude ocupada ---");
+        RoboResgateAereo helico = new RoboResgateAereo("helico", "Norte", 20, 20, 30, 40, 2, true);
+        ambiente.adicionarRobo(helico);
+        helico.subir(10); // tenta subir para 40, já ocupado por falcão-recon
+
+        System.out.println("\n--- teste extra: colisão ao descer para altitude ocupada ---");
+        RoboResgateAereo bloqueador = new RoboResgateAereo("bloqueador", "leste", 20, 20, 20, 40, 1, false);
+        ambiente.adicionarRobo(bloqueador);
+        helico.descer(10); // tenta descer para 30, já ocupado por bloqueador
+
+        System.out.println("\n--- teste extra: ativar modo reconhecimento em posição já ocupada ---");
+        RoboReconhecimento vigia = new RoboReconhecimento("vigia", "Norte", 20, 20, 10, 40, false);
+        ambiente.adicionarRobo(vigia);
+        vigia.ativarModoReconhecimento(); // falcão-recon ainda está em (20,20,40)
+
+        System.out.println("\n--- teste extra: ativar modo emergência em posição já ocupada ---");
+        RoboResgateAereo resgatinho = new RoboResgateAereo("resgatinho", "Sul", 20, 20, 0, 40, 2, true);
+        ambiente.adicionarRobo(resgatinho);
+        resgatinho.ativarModoEmergencia(); // falcão-recon ainda está em (20,20,40)
+
 
         System.out.println("\n--- posições finais ---");
         tanque.exibirPosicao();
         chama.exibirPosicao();
         resgate.exibirPosicao();
         recon.exibirPosicao();
-        novoRecon.exibirPosicao();
         limite.exibirPosicao();
+        trator.exibirPosicao();
+        helico.exibirPosicao();
+        bloqueador.exibirPosicao();
+        vigia.exibirPosicao();
+        resgatinho.exibirPosicao();
+        altitudeTeste.exibirPosicao();
+
     }
 }
