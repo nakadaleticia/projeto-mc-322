@@ -46,13 +46,22 @@ public class Robo {
 
 
     public void mover(int deltaX, int deltaY) {
-        posicaoX += deltaX;
-        posicaoY += deltaY;
-        if (ambiente.dentroDosLimites(posicaoX, posicaoY)) {
-            System.out.println(nome + " moveu para (" + posicaoX + ", " + posicaoY + ")");
-        } else {
+        int novoX = posicaoX + deltaX;
+        int novoY = posicaoY + deltaY;
+
+        if (!ambiente.dentroDosLimites(novoX, novoY)) {
             System.out.println(nome + " não pode se mover para fora dos limites do ambiente");
+            return;
         }
+
+        if (ambiente.posicaoOcupada(novoX, novoY, 0, this)) {
+            System.out.println(nome + " não pode se mover para (" + novoX + ", " + novoY + "): posição já ocupada");
+            return;
+        }
+
+        posicaoX = novoX;
+        posicaoY = novoY;
+        System.out.println(nome + " moveu para (" + posicaoX + ", " + posicaoY + ")");
     }
 
     public void exibirPosicao() {

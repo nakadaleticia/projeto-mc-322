@@ -37,6 +37,11 @@ public class RoboResgateAereo extends RoboAereo {
     /* evacuação de emergência deve ser ativado para robô sobrevoar pelo mapa até encontrar um local seguro (altitude máxima = voo liberado) */
     public void evacuacaoDeEmergencia() {
         if (modoEmergencia) {
+            if (ambiente.posicaoOcupada(posicaoX, posicaoY, altitudeMaxima, this)) {
+                System.out.println(nome + " não pode realizar evacuação de emergência: posição no topo já ocupada");
+                return;
+            }
+
             altitude = altitudeMaxima;
             System.out.println(nome + " está realizando evacuação de emergência...");
         } else {

@@ -15,6 +15,10 @@ public class RoboReconhecimento extends RoboAereo {
 
     public void ativarModoReconhecimento() {
         if (!modoReconhecimento) {
+            if (ambiente.posicaoOcupada(posicaoX, posicaoY, altitudeMaxima, this)) {
+                System.out.println(nome + " não pode ativar modo reconhecimento: posição no topo já ocupada");
+                return;
+            }
             System.out.println("modo reconhecimento ativado. " + nome + " está subindo...");
             subir(altitudeMaxima - altitude); // sobe para altitude máxima
             modoReconhecimento = true;

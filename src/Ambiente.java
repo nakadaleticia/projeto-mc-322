@@ -23,4 +23,19 @@ public class Ambiente {
     public ArrayList<Robo> encontrarRobosAtivos() {
         return robosAtivos; // retorna lista com todos os robôs ativos
     }
+
+    // metodo para verificar se há outro robô na posição final após se mover
+    public boolean posicaoOcupada(int x, int y, int altitude, Robo solicitante) {
+        for (Robo r : robosAtivos) {
+            if (r != solicitante && r.posicaoX == solicitante.posicaoX && r.posicaoY == solicitante.posicaoY) {
+                if (r instanceof RoboAereo && solicitante instanceof RoboAereo) {
+                    RoboAereo rAereo = (RoboAereo) r;
+                    if (rAereo.altitude == altitude) return true;
+                } else if (!(r instanceof RoboAereo) && !(solicitante instanceof RoboAereo)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

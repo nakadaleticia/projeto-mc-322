@@ -9,23 +9,27 @@ public class RoboAereo extends Robo{
     }
 
     public void subir(int metros) {
-        if ((altitude + metros) > altitudeMaxima) {
-            altitude = altitudeMaxima;
-            System.out.println(nome + " não pode ultrapassar altitude máxima. nova altitude = altitude máxima: " + altitudeMaxima);
-        } else {
-            altitude += metros;
-            System.out.println(nome + " subiu para altitude " + altitude);
+        int novaAltitude = Math.min(altitude + metros, altitudeMaxima);
+
+        if (ambiente.posicaoOcupada(posicaoX, posicaoY, novaAltitude, this)) {
+            System.out.println(nome + " não pode subir: posição em (" + posicaoX + ", " + posicaoY + ", " + novaAltitude + ") já ocupada");
+            return;
         }
+
+        altitude = novaAltitude;
+        System.out.println(nome + " subiu para altitude " + altitude);
     }
 
     public void descer(int metros) {
-        if ((altitude - metros) < 0) {
-            altitude = 0;
-            System.out.println(nome + " não pode descer abaixo de 0. nova altitude: " + altitude);
-        } else {
-            altitude -= metros;
-            System.out.println(nome + " desceu para altitude " + altitude);
+        int novaAltitude = Math.max(altitude - metros, 0);
+
+        if (ambiente.posicaoOcupada(posicaoX, posicaoY, novaAltitude, this)) {
+            System.out.println(nome + " não pode descer: posição em (" + posicaoX + ", " + posicaoY + ", " + novaAltitude + ") já ocupada");
+            return;
         }
+
+        altitude = novaAltitude;
+        System.out.println(nome + " desceu para altitude " + altitude);
     }
 
     @Override
