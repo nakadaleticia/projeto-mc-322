@@ -1,29 +1,40 @@
 /*
-esta classe de robô é responsável por lançar chamas sobre os inimigos
-
-funções
-- lançar chamas
+roboLancaChamas: responsável por lancar chama em robos alvos (TERRESTRES).
+cada robo tem um tanque de combustivel de 100L.
+o tanque de combustivel é recarregavel.
+o disparo da chama gasta 5L de combustível.
+o dano da chama é de 20% da vida do robo alvo.
  */
-
 public class RoboLancaChamas extends RoboTerrestre {
-    int combustivel;
+    private int numCombustivel;
 
-    public RoboLancaChamas(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima, int combustivel) {
-        super(nome, direcao, posicaoX, posicaoY, velocidadeMaxima);
-        this.combustivel = combustivel;
+    public RoboLancaChamas(String nome, String direcao, int vida, int posicaoX, int posicaoY, int velocidadeMaxima) {
+        super(nome, direcao, vida, posicaoX, posicaoY, velocidadeMaxima);
+        this.numCombustivel = 100;
     }
 
-    public void lancarChamas() {
-        if (combustivel < 0) {
-            System.out.println(nome + " não possui combustível disponível");
+    public void recarregarCombustivel() {
+        if (numCombustivel < 100) {
+            numCombustivel = 100;
+
+            System.out.println(nome + " recarregou o tanque de combustivel");
         } else {
-            combustivel--;
-            System.out.println(nome + " lançou chamas");
+            System.out.println("tanque de combustível já está cheio");
         }
     }
 
-    public void recarregarCombustivel(int numCombustivel) {
-        combustivel += numCombustivel;
-        System.out.println(nome + " recarregou combustível. combustível: " + combustivel);
+    public void lancarChamas(Robo alvo) {
+        if (numCombustivel > 0) {
+            numCombustivel -= 5;
+
+            System.out.println(nome + " ateou fogo em " + alvo.nome);
+
+            alvo.vida -= (int) (0.2 * alvo.vida);
+            System.out.println(alvo.nome + " recebeu " + (int) (0.2 * alvo.vida) + " de dano");
+
+            // retirar do mapa caso vida == 0
+        } else {
+            System.out.println(nome + " nao pode ater fogo. é necessário reabastecer o tanque de combustivel");
+        }
     }
 }

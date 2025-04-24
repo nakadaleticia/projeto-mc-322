@@ -1,72 +1,48 @@
 public class Robo {
     String nome;
-    String direcao;
-    int posicaoX;
-    int posicaoY;
+    String direcao; // (N, S, L, O)
+    int vida;
+    int posicaoX, posicaoY, posicaoZ;
 
-    public Robo(String nome, String direcao, int posicaoX, int posicaoY) {
+    private Ambiente ambiente;
+
+    public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ) {
         this.nome = nome;
         this.direcao = direcao;
+        this.vida = vida;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
+        this.posicaoZ = posicaoZ;
     }
 
-    Ambiente ambiente;
-
-    public void setAmbiente(Ambiente ambiente) { // este metodo foi adicionado para que o robô possa verificar os limites antes de se mover
+    public void setAmbiente(Ambiente ambiente) {
         this.ambiente = ambiente;
     }
 
-    public void identificarObstaculo(Ambiente ambiente) {
-        int obstaculosIdentificados = 0;
-        System.out.println(nome + " está verificando obstáculos...");
+    // receberDano (criar tipoDeDano)
 
-        for (Robo outro : ambiente.encontrarRobosAtivos()) {
-            if (outro != this) {
-                int dx = Math.abs(outro.posicaoX - this.posicaoX);
-                int dy = Math.abs(outro.posicaoY - this.posicaoY);
-
-                if ((dx == 1 && dy <= 1) || (dy == 1 && dx <= 1)) {
-                    obstaculosIdentificados++;
-
-                    if (outro instanceof RoboAereo) {
-                        RoboAereo aereo = (RoboAereo) outro;
-                        System.out.println("obstáculo detectado: " + outro.nome + " em (" + outro.posicaoX + ", " + outro.posicaoY + ", " + aereo.altitude + ")");
-                    } else {
-                        System.out.println("obstáculo detectado: " + outro.nome + " em (" + outro.posicaoX + ", " + outro.posicaoY + ")");
-                    }
-                }
-            }
-        }
-
-        if (obstaculosIdentificados == 0) {
-            System.out.println(nome + " não identificou nenhum obstáculo nas posições adjacentes");
-        }
-    }
-
-
-    public void mover(int deltaX, int deltaY) {
+    public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
         int novoX = posicaoX + deltaX;
         int novoY = posicaoY + deltaY;
+        int novoZ = posicaoZ + deltaZ;
 
-        if (!ambiente.dentroDosLimites(novoX, novoY)) {
-            System.out.println(nome + " não pode se mover para fora dos limites do ambiente");
-            return;
-        }
-
-        if (ambiente.posicaoOcupada(novoX, novoY, 0, this)) {
-            System.out.println(nome + " não pode se mover para (" + novoX + ", " + novoY + "): posição já ocupada");
+        if (ambiente.posicaoOcupada(novoX, novoY, novoZ, this)) {
+            System.out.println(nome + " nao pode se mover para uma posicao ocupada");
+        } else if (!ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
+            System.out.println(nome + " nao pode se mover para fora dos limites");
             return;
         }
 
         posicaoX = novoX;
         posicaoY = novoY;
-        System.out.println(nome + " moveu para (" + posicaoX + ", " + posicaoY + ")");
+        posicaoZ = novoZ;
+
+        System.out.println(nome + " se moveu");
     }
+
+    // public void identificarObstaculo()
 
     public void exibirPosicao() {
-        System.out.println("posição " + nome +": (" + posicaoX + ", " + posicaoY + ") " + direcao);
+        System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
     }
-
-
 }

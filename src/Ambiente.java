@@ -1,41 +1,45 @@
 import java.util.ArrayList;
 
 public class Ambiente {
-    int largura;
-    int altura;
-    ArrayList<Robo> robosAtivos = new ArrayList<>();
+    int largura, altura, altitude; // (eixo x, eixo y, eixo z)
+    private ArrayList<Robo> robosAtivos; // lista de robos ativos no mapa
+    private ArrayList<Obstaculo> obstaculos; // lista de obstaculos no mapa
 
-    public Ambiente(int largura, int altura) {
+    public Ambiente(int largura, int altura, int altitude, ArrayList<Robo> robosAtivos) {
         this.largura = largura;
         this.altura = altura;
-    }
-
-    public boolean dentroDosLimites(int x, int y) {
-        return (0 <= x && x <= largura && 0 <= y && y <= altura);
+        this.altitude = altitude;
+        this.robosAtivos = new ArrayList<>(); // inicializa robosAtivos na memoria
     }
 
     public void adicionarRobo(Robo r) {
-        r.setAmbiente(this); // para verificação dos limites
-        robosAtivos.add(r); // adiciona robô à lista de robôs ativos
-        System.out.println("robô " + r.nome + " adicionado ao ambiente em (" + r.posicaoX + ", " + r.posicaoY + ") " + r.direcao);
+        robosAtivos.add(r);
+        System.out.println(r.nome + " adiconado em (" + r.posicaoX + ", " + r.posicaoY + ", " + r.posicaoZ + ")");
     }
 
-    public ArrayList<Robo> encontrarRobosAtivos() {
-        return robosAtivos; // retorna lista com todos os robôs ativos
+    public ArrayList<Robo> getRobosAtivos() {
+        return robosAtivos;
     }
 
-    // metodo para verificar se há outro robô na posição final após se mover
-    public boolean posicaoOcupada(int x, int y, int altitude, Robo solicitante) {
+    public boolean dentroDosLimites(int x, int y, int z) {
+        boolean limiteX = (0 <= x && x <= largura); // limite no eixo x
+        boolean limiteY = (0 <= y && y <= altura); // limite no eixo y
+        boolean limiteZ = (0 <= z && z <= altitude); // limite no eixo z
+
+        return (limiteX && limiteY && limiteZ);
+    }
+
+    public boolean posicaoOcupada(int x, int y, int z, Robo solicitante) {
         for (Robo r : robosAtivos) {
-            if (r != solicitante && r.posicaoX == solicitante.posicaoX && r.posicaoY == solicitante.posicaoY) {
-                if (r instanceof RoboAereo && solicitante instanceof RoboAereo) {
-                    RoboAereo rAereo = (RoboAereo) r;
-                    if (rAereo.altitude == altitude) return true;
-                } else if (!(r instanceof RoboAereo) && !(solicitante instanceof RoboAereo)) {
-                    return true;
-                }
+            boolean mesmoX = (solicitante.posicaoX == r.posicaoX);
+            boolean mesmoY = (solicitante.posicaoY == r.posicaoY);
+            boolean mesmoZ = (solicitante.posicaoZ == r.posicaoZ);
+
+            if (r != solicitante) {
+                return (mesmoX && mesmoY && mesmoZ);
             }
         }
+
         return false;
     }
 }

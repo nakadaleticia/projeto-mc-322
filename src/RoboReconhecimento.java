@@ -1,53 +1,30 @@
 /*
-esta classe de robô é responsável por realizar um reconhecimento da área de ataque
-
-funções:
-- reconhecimento (altitude máxima)
+roboReconhecimento: responsável por realizar um reconhecimento do mapa.
+cada robo tem um modo de reconhecimento, que eleva o robo ate sua altitude maxima.
  */
 
-public class RoboReconhecimento extends RoboAereo {
-    boolean modoReconhecimento; // move robô para posição mais alta
+import java.util.ArrayList;
 
-    public RoboReconhecimento(String nome, String direcao, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, boolean modoReconhecimento) {
-        super(nome, direcao, posicaoX, posicaoY, altitude, altitudeMaxima);
+public class RoboReconhecimento extends RoboAereo {
+    boolean modoReconhecimento;
+    ArrayList<Robo> mapaReconhecimento;
+
+    public RoboReconhecimento(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima) {
+        super(nome, direcao, vida, posicaoX, posicaoY, altitude, altitudeMaxima);
         this.modoReconhecimento = false;
+        this.mapaReconhecimento = new ArrayList<>();
     }
 
     public void ativarModoReconhecimento() {
         if (!modoReconhecimento) {
-            if (ambiente.posicaoOcupada(posicaoX, posicaoY, altitudeMaxima, this)) {
-                System.out.println(nome + " não pode ativar modo reconhecimento: posição no topo já ocupada");
-                return;
-            }
-            System.out.println("modo reconhecimento ativado. " + nome + " está subindo...");
-            subir(altitudeMaxima - altitude); // sobe para altitude máxima
             modoReconhecimento = true;
+
+            System.out.println("modo reconhecimento ativado. " + nome + " está subindo...");
+            subir(altitudeMaxima - altitude);
         } else {
-            System.out.println("modo reconhecimento já está ativado");
+            System.out.println(nome + " já está em modo reconhecimento");
         }
     }
 
-    public void fazerReconhecimento(Ambiente ambiente) {
-
-        if (!modoReconhecimento || altitude < altitudeMaxima) {
-            System.out.println(nome + " não pode realizar reconhecimento. ative o modo reconhecimento");
-        } else {
-            System.out.println("realizando reconhecimento...");
-
-            boolean encontrou = false;
-            for (Robo r : ambiente.encontrarRobosAtivos()) {
-                if (r != this) {
-                    if (r instanceof RoboAereo) {
-                        System.out.println("- " + r.nome + " localizado em (" + r.posicaoX + ", " + r.posicaoY + ", " + altitude + ")");
-                    } else {
-                        System.out.println("- " + r.nome + " localizado em (" + r.posicaoX + ", " + r.posicaoY + ")");
-                    }
-                }
-            }
-
-            if (!encontrou) {
-                System.out.println("nenhum robô detectado");
-            }
-        }
-    }
+    // public ArrayList<Robo> realizarReconhecimento()
 }

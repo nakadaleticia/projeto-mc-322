@@ -1,52 +1,72 @@
 /*
-esta classe de robô é responsável pela defesa
-
-funções:
-- disparar misseis
-- absorver dano quando estiver com o modo defesa ativado
+roboTanque: responsável por atirar misseis em robos alvos.
+cada robo pode carregar ate 2 misseis (misseis sao recarregaveis).
+cada robo tem um modo defesa, que reduz o dano recebido em 20%.
+o modo defesa pode ser utilizado ate 4 vezes (blindagem).
+o modo defesa precisa ser reativado apos o robo receber dano.
+o dano do missil é fatal.
  */
 
+import java.util.ArrayList;
+
 public class RoboTanque extends RoboTerrestre {
-    int misseis;
-    int blindagem; // capacidade de absorção de dano
+    private int numMissil, blindagem;
     boolean modoDefesa;
+    ArrayList<Sensor> sensores;
 
-    public RoboTanque(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima, int misseis, int blindagem, boolean modoDefesa) {
-        super(nome, direcao, posicaoX, posicaoY, velocidadeMaxima);
-        this.misseis = misseis;
-        this.blindagem = blindagem;
-        this.modoDefesa = false; // robô inicia com modo defesa desligado
+    public RoboTanque(String nome, String direcao, int vida, int posicaoX, int posicaoY, int velocidadeMaxima) {
+        super(nome, direcao, vida, posicaoX, posicaoY, velocidadeMaxima);
+        this.numMissil = 2;
+        this.blindagem = 4;
+        this.modoDefesa = false;
+        this.sensores = new ArrayList<>();
+
     }
 
-    public void dispararMissil() {
-        if (misseis <= 0) {
-            System.out.println(nome + " está sem misseis disponíveis");
-        } else {
-            misseis--;
-            System.out.println(nome + " disparou");
-        }
-    }
-
-    // modo defensivo: blindagem aumenta em 10 unidades de defesa e dano efetivo = dano / 2
-    public void ativarModoDefensivo() {
-        if (!modoDefesa) {
+    public void ativarModoDefesa() {
+        if (blindagem > 0) {
             modoDefesa = true;
-            blindagem += 10;
-            System.out.println(nome + " ativou modo denfensivo");
+            blindagem--;
+
+            System.out.println(nome + " ativou o modo defesa. blindagem restante: " + blindagem);
         } else {
-            System.out.println(nome + " já está em modo defensivo");
+            System.out.println(nome + " nao pode ativar o modo defesa. nenhuma blindagem restante");
         }
     }
 
-    public void receberDano(int dano) {
-        int danoEfetivo = modoDefesa ? dano / 2 : dano;
+    // @Override
+    private void receberDano(int dano) {
+        if (modoDefesa) {
+            int danoEfetivo = (int) (0.8 * dano);
 
-        if (danoEfetivo >= blindagem) {
-            blindagem = 0;
-            System.out.println(nome + " foi destruído");
+            vida -= danoEfetivo;
+            modoDefesa = false;
         } else {
-            blindagem -= danoEfetivo;
-            System.out.println(nome + " recebeu " + dano + " de dano. blindagem: " + blindagem);
+            vida -= dano;
+        }
+    }
+
+    public void recarregarMissil() {
+        if (numMissil < 2) {
+            numMissil = 2;
+
+            System.out.println(nome + " recarregou seus mísseis");
+        } else {
+            System.out.println(nome + " só pode carregar 2 mísseis simultaneamente");
+        }
+    }
+
+    public void dispararMissil(Robo alvo) {
+        if (numMissil > 0) {
+            numMissil--;
+
+            System.out.println(nome + " disparou míssil em " + alvo.nome);
+
+            alvo.vida = 0;
+            System.out.println(alvo.nome + " morreu");
+            // remover alvo do mapa
+        } else {
+            System.out.println(nome + " nao possui mísseis restantes. é necessário recarregar");
         }
     }
 }

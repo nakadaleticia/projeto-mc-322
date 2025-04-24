@@ -1,51 +1,52 @@
 /*
-esta classe de robô é responsável por realizar resgates de vítimas
-
-funções:
-- resgatar vítimas
-- evacuar da área de perigo quando estiver com o modo defesa ativado (altitude máxima)
+roboResgateAereo: responsável por realizar resgates de vitimas.
+cada robo pode carregar até 5 vitimas.
+cada robo tem um modo emergencia, que eleva o robo ate sua altitude maxima (evacuacao e resgate).
  */
 
-public class RoboResgateAereo extends RoboAereo {
+public class RoboResgateAereo extends RoboAereo{
     int capacidadeVitimas;
     boolean modoEmergencia;
 
-    public RoboResgateAereo(String nome, String direcao, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, int capacidadeVitimas, boolean modoEmergencia) {
-        super(nome, direcao, posicaoX, posicaoY, altitude, altitudeMaxima);
-        this.capacidadeVitimas = capacidadeVitimas;
-        this.modoEmergencia = false; // robô inicia com modo emergência desativado
-    }
-
-    public void carregarVitima() {
-        if (capacidadeVitimas <= 0) {
-            System.out.println(nome + " não pode resgatar mais vítimas");
-        } else {
-            capacidadeVitimas--;
-            System.out.println(nome + " resgatou uma vítima. capacidade atual: " + capacidadeVitimas);
-        }
+    public RoboResgateAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima) {
+        super(nome, direcao, vida, posicaoX, posicaoY, altitude, altitudeMaxima);
+        this.capacidadeVitimas = 5;
+        this.modoEmergencia = false;
     }
 
     public void ativarModoEmergencia() {
         if (!modoEmergencia) {
             modoEmergencia = true;
-            System.out.println("modo emergência ativado");
+
+            System.out.println("modo emergência ativado. " + nome + " está subindo...");
+            subir(altitudeMaxima - altitude);
         } else {
-            System.out.println("modo emergência já está ativado");
+            System.out.println(nome + " já está em modo resgate");
         }
     }
 
-    /* evacuação de emergência deve ser ativado para robô sobrevoar pelo mapa até encontrar um local seguro (altitude máxima = voo liberado) */
-    public void evacuacaoDeEmergencia() {
-        if (modoEmergencia) {
-            if (ambiente.posicaoOcupada(posicaoX, posicaoY, altitudeMaxima, this)) {
-                System.out.println(nome + " não pode realizar evacuação de emergência: posição no topo já ocupada");
-                return;
-            }
+    public void resgatarVitima(int posicaoVitimaX, int posicaoVitimaY) {
+        int deltaX = posicaoVitimaX - posicaoX;
+        int deltaY = posicaoVitimaY - posicaoY;
 
-            altitude = altitudeMaxima;
-            System.out.println(nome + " está realizando evacuação de emergência...");
+        if (modoEmergencia) {
+            if (capacidadeVitimas > 0) {
+                mover(deltaX, deltaY, 0,-1);
+                System.out.println(nome + " resgatou uma vítima");
+            } else {
+                System.out.println(nome + " não pode resgatar novas vítimas. é necessário evacuar");
+            }
         } else {
-            System.out.println(nome + " não pode sobrevoar o terreno seguramente. ative o modo emergência");
+            System.out.println(nome + " não pode realizar resgates. ative o modo emergência");
         }
+    }
+
+    public void evacuacaoDeVitimas(int posicaoEvacuacaoX, int posicaoEvacuacaoY) {
+        int deltaX = posicaoEvacuacaoX - posicaoX;
+        int deltaY = posicaoEvacuacaoY - posicaoY;
+
+        mover(deltaX, deltaY, 0, -1);
+        System.out.println(nome + " levou suas vítimas para (" + posicaoEvacuacaoX + ", " + posicaoEvacuacaoY + ")");
+        capacidadeVitimas = 5;
     }
 }

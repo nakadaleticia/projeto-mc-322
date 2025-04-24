@@ -1,39 +1,25 @@
-public class RoboAereo extends Robo{
-    int altitude;
-    int altitudeMaxima;
+/*
+roboAereo: classe de robos voadores.
+nao ha limite de velocidade para robos voadores (tempo = -1)
+ */
 
-    public RoboAereo(String nome, String direcao, int posicaoX, int posicaoY, int altitude, int altitudeMaxima) {
-        super(nome, direcao, posicaoX, posicaoY);
-        this.altitude = altitude;
+public class RoboAereo extends Robo {
+    int altitude, altitudeMaxima;
+
+    public RoboAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima) {
+        super(nome, direcao, vida, posicaoX, posicaoY, altitude);
         this.altitudeMaxima = altitudeMaxima;
     }
 
     public void subir(int metros) {
-        int novaAltitude = Math.min(altitude + metros, altitudeMaxima);
+        int novoZ = posicaoZ + metros;
 
-        if (ambiente.posicaoOcupada(posicaoX, posicaoY, novaAltitude, this)) {
-            System.out.println(nome + " não pode subir: posição em (" + posicaoX + ", " + posicaoY + ", " + novaAltitude + ") já ocupada");
-            return;
-        }
-
-        altitude = novaAltitude;
-        System.out.println(nome + " subiu para altitude " + altitude);
+        super.mover(0,0, novoZ, -1);
     }
 
     public void descer(int metros) {
-        int novaAltitude = Math.max(altitude - metros, 0);
+        int novoZ = posicaoZ - metros;
 
-        if (ambiente.posicaoOcupada(posicaoX, posicaoY, novaAltitude, this)) {
-            System.out.println(nome + " não pode descer: posição em (" + posicaoX + ", " + posicaoY + ", " + novaAltitude + ") já ocupada");
-            return;
-        }
-
-        altitude = novaAltitude;
-        System.out.println(nome + " desceu para altitude " + altitude);
-    }
-
-    @Override
-    public void exibirPosicao() {
-        System.out.println("posição " + nome +": (" + posicaoX + ", " + posicaoY + ", " + altitude + ") " + direcao);
+        super.mover(0,0, novoZ, -1);
     }
 }
