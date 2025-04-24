@@ -10,6 +10,9 @@ public class Ambiente {
         this.altura = altura;
         this.altitude = altitude;
         this.robosAtivos = new ArrayList<>(); // inicializa robosAtivos na memoria
+        this.obstaculos = new ArrayList<>(); // inicializa obstaculos na memoria
+
+        System.out.println("ambiente " + largura + "x" + altura + "x" + altitude + " foi criado");
     }
 
     public void adicionarRobo(Robo r) {
@@ -17,8 +20,25 @@ public class Ambiente {
         System.out.println(r.nome + " adiconado em (" + r.posicaoX + ", " + r.posicaoY + ", " + r.posicaoZ + ")");
     }
 
+    public void removerRobo(Robo r) {
+        if (robosAtivos.remove(r)) {
+            System.out.println(r.nome + " removido do ambiente.");
+        } else {
+            System.out.println(r.nome + " não está no ambiente.");
+        }
+    }
+
+    public void adicionarObstaculo(Obstaculo o) {
+        obstaculos.add(o);
+        System.out.println("Obstáculo do tipo " + o.getTipo() + " adicionado ao ambiente.");
+    }
+
     public ArrayList<Robo> getRobosAtivos() {
         return robosAtivos;
+    }
+
+    public ArrayList<Obstaculo> getObstaculos() {
+        return obstaculos;
     }
 
     public boolean dentroDosLimites(int x, int y, int z) {

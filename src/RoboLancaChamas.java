@@ -29,8 +29,8 @@ public class RoboLancaChamas extends RoboTerrestre {
 
             System.out.println(nome + " ateou fogo em " + alvo.nome);
 
-            alvo.vida -= (int) (0.2 * alvo.vida);
-            System.out.println(alvo.nome + " recebeu " + (int) (0.2 * alvo.vida) + " de dano");
+            int dano = (int) (0.2 * alvo.vida);
+            alvo.receberDano(dano);
 
             // retirar do mapa caso vida == 0
         } else {

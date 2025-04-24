@@ -34,17 +34,29 @@ public class RoboTanque extends RoboTerrestre {
         }
     }
 
-    // @Override
-    private void receberDano(int dano) {
+    @Override
+    protected void receberDano(int dano) {
         if (modoDefesa) {
             int danoEfetivo = (int) (0.8 * dano);
-
             vida -= danoEfetivo;
             modoDefesa = false;
+
+            System.out.println(nome + " recebeu " + danoEfetivo + " de dano (modo defesa). Vida restante: " + vida);
         } else {
             vida -= dano;
+            System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + vida);
+        }
+
+        if (vida <= 0) {
+            System.out.println(nome + " foi destruído!");
+
+            if (getAmbiente() != null) {
+                getAmbiente().removerRobo(this);
+            }
         }
     }
+
+
 
     public void recarregarMissil() {
         if (numMissil < 2) {
@@ -62,7 +74,7 @@ public class RoboTanque extends RoboTerrestre {
 
             System.out.println(nome + " disparou míssil em " + alvo.nome);
 
-            alvo.vida = 0;
+            alvo.receberDano(alvo.vida); // dano fatal
             System.out.println(alvo.nome + " morreu");
             // remover alvo do mapa
         } else {
