@@ -2,14 +2,14 @@
 roboResgateAereo: responsável por realizar resgates de vitimas.
 cada robo pode carregar até 5 vitimas.
 cada robo tem um modo emergencia, que eleva o robo ate sua altitude maxima (evacuacao e resgate).
- */
+*/
 
-public class RoboResgateAereo extends RoboAereo{
+public class RoboResgateAereo extends RoboAereo {
     int capacidadeVitimas;
     boolean modoEmergencia;
 
-    public RoboResgateAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima) {
-        super(nome, direcao, vida, posicaoX, posicaoY, altitude, altitudeMaxima);
+    public RoboResgateAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, Ambiente ambiente) {
+        super(nome, direcao, vida, posicaoX, posicaoY, altitude, altitudeMaxima, ambiente);
         this.capacidadeVitimas = 5;
         this.modoEmergencia = false;
     }
@@ -17,9 +17,8 @@ public class RoboResgateAereo extends RoboAereo{
     public void ativarModoEmergencia() {
         if (!modoEmergencia) {
             modoEmergencia = true;
-
             System.out.println("modo emergência ativado. " + nome + " está subindo...");
-            subir(altitudeMaxima - altitude);
+            subir(altitudeMaxima - posicaoZ);
         } else {
             System.out.println(nome + " já está em modo resgate");
         }
@@ -31,8 +30,9 @@ public class RoboResgateAereo extends RoboAereo{
 
         if (modoEmergencia) {
             if (capacidadeVitimas > 0) {
-                mover(deltaX, deltaY, 0,-1);
+                mover(deltaX, deltaY, 0, -1);
                 System.out.println(nome + " resgatou uma vítima");
+                capacidadeVitimas--;
             } else {
                 System.out.println(nome + " não pode resgatar novas vítimas. é necessário evacuar");
             }
