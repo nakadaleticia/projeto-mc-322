@@ -6,8 +6,8 @@ nao ha limite de velocidade para robos voadores (tempo = -1)
 public class RoboAereo extends Robo {
     int altitude, altitudeMaxima;
 
-    public RoboAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima) {
-        super(nome, direcao, vida, posicaoX, posicaoY, altitude);
+    public RoboAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, Ambiente ambiente) {
+        super(nome, direcao, vida, posicaoX, posicaoY, altitude, ambiente);
         this.altitudeMaxima = altitudeMaxima;
     }
 

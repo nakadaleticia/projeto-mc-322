@@ -30,7 +30,7 @@ public class Ambiente {
 
     public void adicionarObstaculo(Obstaculo o) {
         obstaculos.add(o);
-        System.out.println("Obstáculo do tipo " + o.getTipo() + " adicionado ao ambiente.");
+        System.out.println("obstáculo do tipo " + o.getTipo() + " adicionado ao ambiente.");
     }
 
     public ArrayList<Robo> getRobosAtivos() {

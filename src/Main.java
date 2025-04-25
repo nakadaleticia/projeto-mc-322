@@ -13,67 +13,66 @@
 public class Main {
     public static void main(String[] args) {
         System.out.println("=== CRIAÇÃO DO AMBIENTE ===");
-        Ambiente ambiente = new Ambiente(10, 10, 10, null); // cria ambiente 10x10x10
+        Ambiente ambiente = new Ambiente(20, 20, 10, null);
 
-        System.out.println("\n=== CRIAÇÃO DE OBSTÁCULOS ===");
-        Obstaculo buraco = new Obstaculo(3, 3, 3, 3, 0, TipoObstaculo.BURACO); // buraco ocupa uma célula (3,3)
-        Obstaculo vitima = new Obstaculo(5, 5, 5, 5, 2, TipoObstaculo.VITIMA); // vítima está em (5,5)
-        ambiente.adicionarObstaculo(buraco);
-        ambiente.adicionarObstaculo(vitima);
+        System.out.println("\n=== TESTES: ROBO TANQUE ===");
+        RoboTanque tanque = new RoboTanque("Tanque", "N", 100, 5, 5, 2, ambiente);
+        Robo alvo1 = new RoboTanque("Alvo1", "S", 100, 6, 5, 2, ambiente);
+        ambiente.adicionarRobo(tanque);
+        ambiente.adicionarRobo(alvo1);
 
-        System.out.println("\n=== CRIAÇÃO DE ROBÔS ===");
+        tanque.dispararMissil(alvo1); // sucesso
+        Robo alvo2 = new RoboTanque("Alvo2", "S", 100, 7, 5, 2, ambiente);
+        ambiente.adicionarRobo(alvo2);
+        tanque.dispararMissil(alvo2); // sucesso
+        tanque.dispararMissil(alvo2); // falha
+        tanque.recarregarMissil(); // sucesso
+        tanque.recarregarMissil(); // falha
+        tanque.ativarModoDefesa(); // sucesso
+        tanque.ativarModoDefesa(); // 3
+        tanque.ativarModoDefesa(); // 2
+        tanque.ativarModoDefesa(); // 1
+        tanque.ativarModoDefesa(); // 0
+        tanque.ativarModoDefesa(); // falha
 
-        RoboLancaChamas rc = new RoboLancaChamas("Chamas", "N", 100, 2, 2, 3);
-        RoboTanque rt = new RoboTanque("Tanque", "S", 100, 4, 4, 2);
-        RoboReconhecimento rr = new RoboReconhecimento("Recon", "L", 100, 1, 1, 2, 6);
-        RoboResgateAereo ra = new RoboResgateAereo("Resgate", "O", 100, 6, 6, 2, 8);
+        System.out.println("\n=== TESTES: ROBO LANCA CHAMAS ===");
+        RoboLancaChamas chama = new RoboLancaChamas("Chamas", "L", 100, 10, 10, 3, ambiente);
+        Robo dummy = new RoboTanque("Dummy", "S", 100, 11, 10, 2, ambiente);
+        ambiente.adicionarRobo(chama);
+        ambiente.adicionarRobo(dummy);
 
-        rc.setAmbiente(ambiente);
-        rt.setAmbiente(ambiente);
-        rr.setAmbiente(ambiente);
-        ra.setAmbiente(ambiente);
+        chama.lancarChamas(dummy); // sucesso
+        chama.recarregarCombustivel(); // falha: cheio
+        for (int i = 0; i < 20; i++) {
+            chama.lancarChamas(dummy); // gasta combustível
+        }
+        chama.lancarChamas(dummy); // falha: sem combustível
+        chama.recarregarCombustivel(); // sucesso
 
-        ambiente.adicionarRobo(rc);   // Chamas em (2,2)
-        ambiente.adicionarRobo(rt);   // Tanque em (4,4)
-        ambiente.adicionarRobo(rr);   // Recon em (1,1)
-        ambiente.adicionarRobo(ra);   // Resgate em (6,6)
+        System.out.println("\n=== TESTES: ROBO RESGATE AÉREO ===");
+        RoboResgateAereo resgate = new RoboResgateAereo("Resgate", "O", 100, 15, 15, 1, 6, ambiente);
+        ambiente.adicionarRobo(resgate);
 
-        System.out.println("\n=== TESTES DE MOVIMENTAÇÃO ===");
-        rc.mover(1, 0, 0, 1); // move para (3,2) -> permitido
-        rt.mover(10, 10, 0, 1); // fora dos limites -> deve bloquear
-        rr.mover(0, 0, 0, 1); // tenta mover para a própria posição -> permitido
-        ra.mover(-1, -1, 0, -1); // aéreo, sem limite de velocidade -> permitido
+        resgate.resgatarVitima(5, 5); // falha: sem modo emergência
+        resgate.ativarModoEmergencia(); // sucesso
+        resgate.ativarModoEmergencia(); // falha: já ativado
+        for (int i = 0; i < 5; i++) {
+            resgate.resgatarVitima(5, 5); // sucesso (5x)
+        }
+        resgate.resgatarVitima(5, 5); // falha: excede capacidade
+        resgate.evacuacaoDeVitimas(0, 0); // sucesso
+        resgate.evacuacaoDeVitimas(1, 1); // evacua sem vítimas
 
-        System.out.println("\n=== TESTES DE SENSORES ===");
-        SensorProximidade sp1 = new SensorProximidade(5, ambiente);
-        SensorEletromagnetico se1 = new SensorEletromagnetico(5, ambiente);
+        System.out.println("\n=== TESTES: ROBO RECONHECIMENTO ===");
+        RoboReconhecimento recon = new RoboReconhecimento("Recon", "S", 100, 2, 2, 2, 6, ambiente);
+        ambiente.adicionarRobo(recon);
 
-        rc.adicionarSensor(sp1);  // adiciona sensor de proximidade ao Chamas
-        rt.adicionarSensor(se1);  // adiciona sensor eletromagnético ao Tanque
-        rc.usarSensores();        // deve detectar robôs próximos
-        rt.usarSensores();        // deve detectar robôs próximos
+        recon.ativarModoReconhecimento(); // sucesso
+        recon.ativarModoReconhecimento(); // falha: já ativado
 
-        System.out.println("\n=== TESTES DE COMBATE ===");
-        rc.lancarChamas(rt);        // Tanque recebe 20 de dano
-        rt.ativarModoDefesa();      // ativa blindagem, blindagem-- -> 3 restantes
-        rc.lancarChamas(rt);        // Tanque recebe dano reduzido, modo defesa desativado
-        rt.recarregarMissil();      // recarrega para 2
-        rt.dispararMissil(rc);      // Chamas destruído e removido do ambiente
-
-        System.out.println("\n=== TESTES DE RESGATE ===");
-        ra.ativarModoEmergencia();         // sobe até altitude máxima
-        ra.resgatarVitima(5, 5);           // move para vítima (5,5), resgata
-        ra.evacuacaoDeVitimas(0, 0);       // move para (0,0) e esvazia vítimas
-
-        System.out.println("\n=== TESTES DE RECONHECIMENTO ===");
-        rr.ativarModoReconhecimento();     // sobe até altitude máxima (6)
-
-        System.out.println("\n=== TESTE DE IDENTIFICAR OBSTÁCULO ===");
-        rt.identificarObstaculo(); // deve identificar obstáculo (dependendo da posição final)
-
-        System.out.println("\n=== STATUS FINAL DOS ROBÔS NO AMBIENTE ===");
+        System.out.println("\n=== POSIÇÕES FINAIS ===");
         for (Robo r : ambiente.getRobosAtivos()) {
-            r.exibirPosicao(); // imprime posição final de cada robô sobrevivente
+            r.exibirPosicao();
         }
     }
 }
