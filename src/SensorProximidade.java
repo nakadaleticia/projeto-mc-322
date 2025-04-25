@@ -19,14 +19,14 @@ public class SensorProximidade extends Sensor {
 
     @Override
     public void monitorar(Robo solicitante) {
-        System.out.println("Sensor de Proximidade (" + solicitante.nome + "): verificando arredores...");
+        System.out.println("sensor de proximidade (" + solicitante.nome + "): verificando arredores...");
 
         for (Robo r : ambiente.getRobosAtivos()) {
             if (r != solicitante) {
                 int distancia = calcularDistancia(r, solicitante);
 
                 if (distancia <= raio) {
-                    System.out.println("- Robô detectado: " + r.nome + " a " + distancia + " unidades. Posição: (" +
+                    System.out.println("- robô detectado: " + r.nome + " a " + distancia + " unidades. Posição: (" +
                             r.posicaoX + ", " + r.posicaoY + ", " + r.posicaoZ + ")");
                 }
             }

@@ -88,9 +88,9 @@ public class Robo {
                                 " em posição próxima (" + x + ", " + y + ").");
 
                         if (o.getTipo().isBloqueiaPassagem()) {
-                            System.out.println("-> Esse obstáculo bloqueia a passagem.");
+                            System.out.println("-> esse obstáculo bloqueia a passagem.");
                         } else {
-                            System.out.println("-> Esse obstáculo não bloqueia a passagem.");
+                            System.out.println("-> esse obstáculo não bloqueia a passagem.");
                         }
 
                         return; // parar após o primeiro obstáculo encontrado
