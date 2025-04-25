@@ -1,3 +1,7 @@
+/*
+fazer mapa com matriz
+*/
+
 import java.util.ArrayList;
 
 public class Ambiente {
