@@ -10,9 +10,22 @@
 9. exibir status finais
  */
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        Menu menu = new Menu('0');
         System.out.println("=== CRIAÇÃO DO AMBIENTE ===");
+        int[] listDimen = menu.CriarAmbiente();
+        Ambiente ambiente = new Ambiente(listDimen[0],listDimen[1],listDimen[2],null);
+        while (true){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("O que deseja fazer? ");
+            int opcao = sc.nextInt();
+
+        }
+        /*System.out.println("=== CRIAÇÃO DO AMBIENTE ===");
+
         Ambiente ambiente = new Ambiente(20, 20, 10, null);
 
         System.out.println("\n=== TESTES: ROBO TANQUE ===");
@@ -73,6 +86,6 @@ public class Main {
         System.out.println("\n=== POSIÇÕES FINAIS ===");
         for (Robo r : ambiente.getRobosAtivos()) {
             r.exibirPosicao();
-        }
+        }*/
     }
 }
