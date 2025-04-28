@@ -27,7 +27,9 @@ public class Robo {
     }
 
     public void adicionarSensor(Sensor sensor) {
+
         sensores.add(sensor);
+        System.out.println("Sensor adicionado com sucesso em " + this.nome);
     }
 
     public Ambiente getAmbiente() {
