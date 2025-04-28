@@ -18,6 +18,8 @@ public class Main {
         System.out.println("=== CRIAÇÃO DO AMBIENTE ===");
         int[] listDimen = menu.CriarAmbiente();
         Ambiente ambiente = new Ambiente(listDimen[0],listDimen[1],listDimen[2],null);
+        Obstaculo obstaculo = new Obstaculo(1,2,1,2,3,TipoObstaculo.VITIMA);
+        ambiente.adicionarObstaculo(obstaculo);
         //criar um obstaculo aqui
         //ambiente.adicionarObstaculo();
         while (true){
