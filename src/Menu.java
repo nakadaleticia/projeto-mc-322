@@ -2,132 +2,111 @@ import java.util.Scanner;
 
 public class Menu {
     int valor;
+    Scanner sc = new Scanner(System.in);
     public Menu(int valor) {
         this.valor = valor;
     }
     public int[] CriarAmbiente(){
         System.out.println("Qual será seu X, Y e Z do ambiente?");
-        Scanner sc = new Scanner(System.in);
+
         int x = sc.nextInt();
         int y = sc.nextInt();
         int z = sc.nextInt();
         return new int[]{x, y, z};
     }
-    public void Escolha(int opcao){
+
+    public boolean escolha(int opcao,Ambiente ambiente){
         switch(opcao){
             case 0:
                 //chamar função sair
+                return sair();
             case 1:
                 //função criae robo
+                criarRobo(ambiente);
+                break;
+
             case 2:
-                //chamar função cria obstáculo
-            case 3:
                 //chamar função cria sensor
-            case 4:
+                criaSensor(ambiente);
+                break;
+
+            case 3:
+                if(ambiente.getRobosAtivos().size()>0) {
+                    ClasseEscolher classeEsc = new ClasseEscolher(ambiente);
+                    classeEsc.iniciar();
+                }
+                else{
+                    System.out.println("Não existem robos ativos!");
+                }
+                break;
                 //chamar função escolhe robo
-            case 5:
+            case 4:
                 //chamar funnção que exclui robo
+                excluiRobo(ambiente);
+                break;
+
+
 
         }
+        return true;
     }
+
     public boolean sair(){
         return false;
     }
     public void criarRobo(Ambiente ambiente){
         System.out.println("Qual tipo de robo?");
-        Scanner sc = new Scanner(System.in);
+        System.out.println(" 1 - Lança chamas\n 2 - Reconhecimento\n 3 - Tanque\n 4 - Resgate aéreo");
+        ClasseCriadora classeCriadora = new ClasseCriadora();
         int tipo = sc.nextInt();
         switch(tipo){
-            case 0:
-                sair();
+
             case 1:
-                criarRoboLC(ambiente);
+                classeCriadora.criarRoboLC(ambiente);
+                break;
                 //robo lança-chamas
             case 2:
-                criarRoboRec(ambiente);
+                classeCriadora.criarRoboRec(ambiente);
+                break;
                 //robo reconhecimento
             case 3:
-                criarRoboTanque(ambiente);
+                classeCriadora.criarRoboTanque(ambiente);
+                break;
                 //robo tanque
             case 4:
-                criarRoboRA(ambiente);
+                classeCriadora.criarRoboRA(ambiente);
+                break;
                 //robo resgate aereo
 
 
         }
     }
-    private void criarRoboLC(Ambiente ambiente){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Qual o nome do Robo?");
-        String nome = sc.next();
-        System.out.println("Qual a direção do Robo?");
-        String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
-        int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
-        int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
-        int y = sc.nextInt();
-        System.out.println("Qual a velocidade máxima do Robo?");
-        int velocidadeMaxima = sc.nextInt();
-        RoboLancaChamas roboLancaChamas = new RoboLancaChamas(nome,direcao,vida,x,y,velocidadeMaxima,ambiente);
-        ambiente.adicionarRobo(roboLancaChamas);
-
-
+    public void excluiRobo(Ambiente ambiente) {
+        ClasseEscolher classeE = new ClasseEscolher(ambiente);
+        System.out.println("Escolha um para ser excluido");
+        classeE.exibe();
+        Robo robo = classeE.escolheUm();
+        ambiente.removerRobo(robo);
+    }
+    private void criaSensor(Ambiente ambiente){
+        ClasseEscolher classe = new ClasseEscolher(ambiente);
+        System.out.println("Qual o raio do Sensor?");
+        int raio = sc.nextInt();
+        System.out.println("Qual tipo de sensor?\n 1 - Eletromag\n 2 - Proximidade");
+        int opcao = sc.nextInt();
+        classe.exibe();
+        Robo robo = classe.escolheUm();
+        switch(opcao){
+            case 1:
+                SensorEletromagnetico sensorEletromagnetico = new SensorEletromagnetico(raio,ambiente);
+                robo.adicionarSensor(sensorEletromagnetico);
+                break;
+            case 2:
+                SensorProximidade sensorProximidade = new SensorProximidade(raio,ambiente);
+                robo.adicionarSensor(sensorProximidade);
+                break;
         }
-    private void criarRoboRec(Ambiente ambiente) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Qual o nome do Robo?");
-        String nome = sc.next();
-        System.out.println("Qual a direção do Robo?");
-        String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
-        int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
-        int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
-        int y = sc.nextInt();
-        System.out.println("Qual a altitude do Robo?");
-        int altitude = sc.nextInt();
-        System.out.println("Qual a altitude maxima do Robo?");
-        int altitudeMaxima = sc.nextInt();
-        RoboReconhecimento roboReconhecimento = new RoboReconhecimento(nome, direcao, vida, x, y, altitude, altitudeMaxima, ambiente);
-        ambiente.adicionarRobo(roboReconhecimento);
-    }
-    private void criarRoboTanque(Ambiente ambiente){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Qual o nome do Robo?");
-        String nome = sc.next();
-        System.out.println("Qual a direção do Robo?");
-        String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
-        int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
-        int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
-        int y = sc.nextInt();
-        System.out.println("Qual a velocidade máxima do Robo?");
-        int velocidadeMaxima = sc.nextInt();
-        RoboTanque robotanque = new RoboTanque(nome,direcao,vida,x,y,velocidadeMaxima,ambiente);
-    }
-    private void criarRoboRA(Ambiente ambiente){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Qual o nome do Robo?");
-        String nome = sc.next();
-        System.out.println("Qual a direção do Robo?");
-        String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
-        int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
-        int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
-        int y = sc.nextInt();
-        System.out.println("Qual a altitude do Robo?");
-        int altitude = sc.nextInt();
-        System.out.println("Qual a altitude maxima do Robo?");
-        int altitudeMaxima = sc.nextInt();
-        RoboResgateAereo RoboRA = new RoboResgateAereo(nome,direcao,vida,x,y,altitude,altitudeMaxima,ambiente);
-        ambiente.adicionarRobo(RoboRA);
+
     }
 
 }

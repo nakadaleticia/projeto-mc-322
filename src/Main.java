@@ -18,10 +18,17 @@ public class Main {
         System.out.println("=== CRIAÇÃO DO AMBIENTE ===");
         int[] listDimen = menu.CriarAmbiente();
         Ambiente ambiente = new Ambiente(listDimen[0],listDimen[1],listDimen[2],null);
+        //criar um obstaculo aqui
+        //ambiente.adicionarObstaculo();
         while (true){
             Scanner sc = new Scanner(System.in);
             System.out.println("O que deseja fazer? ");
+            System.out.println(" 0 - Sair\n 1 - Criar Robo\n 2 - Criar Sensor\n 3 - Escolher Robo \n 4 - Excluir Robo");
             int opcao = sc.nextInt();
+            boolean escolha = menu.escolha(opcao, ambiente);
+            if (!escolha){
+                break;
+            }
 
         }
         /*System.out.println("=== CRIAÇÃO DO AMBIENTE ===");
