@@ -18,6 +18,18 @@ public class Main {
         System.out.println("=== CRIAÇÃO DO AMBIENTE ===");
         int[] listDimen = menu.CriarAmbiente();
         Ambiente ambiente = new Ambiente(listDimen[0],listDimen[1],listDimen[2],null);
+        RoboTanque tanque = new RoboTanque("Tanque", "N", 100, 5, 5, 2, ambiente);
+        Robo alvo1 = new RoboTanque("Alvo1", "S", 100, 6, 5, 2, ambiente);
+        RoboLancaChamas chama = new RoboLancaChamas("Chamas", "L", 100, 10, 10, 3, ambiente);
+        Robo dummy = new RoboTanque("Dummy", "S", 100, 11, 10, 2, ambiente);
+        RoboResgateAereo resgate = new RoboResgateAereo("Resgate", "O", 100, 15, 15, 1, 6, ambiente);
+        RoboReconhecimento recon = new RoboReconhecimento("Recon", "S", 100, 2, 2, 2, 6, ambiente);
+        ambiente.adicionarRobo(recon);
+        ambiente.adicionarRobo(resgate);
+        ambiente.adicionarRobo(chama);
+        ambiente.adicionarRobo(dummy);
+        ambiente.adicionarRobo(tanque);
+        ambiente.adicionarRobo(alvo1);
         Obstaculo obstaculo = new Obstaculo(1,2,1,2,3,TipoObstaculo.VITIMA);
         ambiente.adicionarObstaculo(obstaculo);
         //criar um obstaculo aqui
@@ -25,7 +37,7 @@ public class Main {
         while (true){
             Scanner sc = new Scanner(System.in);
             System.out.println("O que deseja fazer? ");
-            System.out.println(" 0 - Sair\n 1 - Criar Robo\n 2 - Criar Sensor\n 3 - Escolher Robo \n 4 - Excluir Robo");
+            System.out.println(" 0 - Sair\n 3 - Escolher Robo \n 4 - Excluir Robo");
             int opcao = sc.nextInt();
             boolean escolha = menu.escolha(opcao, ambiente);
             if (!escolha){
@@ -38,10 +50,8 @@ public class Main {
         Ambiente ambiente = new Ambiente(20, 20, 10, null);
 
         System.out.println("\n=== TESTES: ROBO TANQUE ===");
-        RoboTanque tanque = new RoboTanque("Tanque", "N", 100, 5, 5, 2, ambiente);
-        Robo alvo1 = new RoboTanque("Alvo1", "S", 100, 6, 5, 2, ambiente);
-        ambiente.adicionarRobo(tanque);
-        ambiente.adicionarRobo(alvo1);
+
+
 
         tanque.dispararMissil(alvo1); // sucesso
         Robo alvo2 = new RoboTanque("Alvo2", "S", 100, 7, 5, 2, ambiente);
@@ -58,10 +68,7 @@ public class Main {
         tanque.ativarModoDefesa(); // falha
 
         System.out.println("\n=== TESTES: ROBO LANCA CHAMAS ===");
-        RoboLancaChamas chama = new RoboLancaChamas("Chamas", "L", 100, 10, 10, 3, ambiente);
-        Robo dummy = new RoboTanque("Dummy", "S", 100, 11, 10, 2, ambiente);
-        ambiente.adicionarRobo(chama);
-        ambiente.adicionarRobo(dummy);
+
 
         chama.lancarChamas(dummy); // sucesso
         chama.recarregarCombustivel(); // falha: cheio
@@ -72,8 +79,7 @@ public class Main {
         chama.recarregarCombustivel(); // sucesso
 
         System.out.println("\n=== TESTES: ROBO RESGATE AÉREO ===");
-        RoboResgateAereo resgate = new RoboResgateAereo("Resgate", "O", 100, 15, 15, 1, 6, ambiente);
-        ambiente.adicionarRobo(resgate);
+
 
         resgate.resgatarVitima(5, 5); // falha: sem modo emergência
         resgate.ativarModoEmergencia(); // sucesso
@@ -86,8 +92,7 @@ public class Main {
         resgate.evacuacaoDeVitimas(1, 1); // evacua sem vítimas
 
         System.out.println("\n=== TESTES: ROBO RECONHECIMENTO ===");
-        RoboReconhecimento recon = new RoboReconhecimento("Recon", "S", 100, 2, 2, 2, 6, ambiente);
-        ambiente.adicionarRobo(recon);
+
 
         recon.ativarModoReconhecimento(); // sucesso
         recon.ativarModoReconhecimento(); // falha: já ativado
