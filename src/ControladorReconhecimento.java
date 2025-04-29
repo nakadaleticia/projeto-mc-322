@@ -58,6 +58,7 @@ public class ControladorReconhecimento {
                 break;
             case "4":
                 robo.ativarModoReconhecimento();
+                break;
             case "5":
                 System.out.println("Vai subir quanto?");
                 int subida = sc.nextInt();

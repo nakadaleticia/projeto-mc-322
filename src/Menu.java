@@ -20,7 +20,7 @@ public class Menu {
             case 0:
                 //chamar função sair
                 return sair();
-            case 1:
+            /*case 1:
                 //função criae robo
                 criarRobo(ambiente);
                 break;
@@ -28,10 +28,10 @@ public class Menu {
             case 2:
                 //chamar função cria sensor
                 criaSensor(ambiente);
-                break;
+                break;*/
 
             case 3:
-                if(ambiente.getRobosAtivos().size()>0) {
+                if(!ambiente.getRobosAtivos().isEmpty()) {
                     ClasseEscolher classeEsc = new ClasseEscolher(ambiente);
                     classeEsc.iniciar();
                 }
@@ -54,7 +54,7 @@ public class Menu {
     public boolean sair(){
         return false;
     }
-    public void criarRobo(Ambiente ambiente){
+    /*public void criarRobo(Ambiente ambiente){
         System.out.println("Qual tipo de robo?");
         System.out.println(" 1 - Lança chamas\n 2 - Reconhecimento\n 3 - Tanque\n 4 - Resgate aéreo");
         ClasseCriadora classeCriadora = new ClasseCriadora();
@@ -80,7 +80,7 @@ public class Menu {
 
 
         }
-    }
+    }*/
     public void excluiRobo(Ambiente ambiente) {
         ClasseEscolher classeE = new ClasseEscolher(ambiente);
         System.out.println("Escolha um para ser excluido");
@@ -88,7 +88,7 @@ public class Menu {
         Robo robo = classeE.escolheUm();
         ambiente.removerRobo(robo);
     }
-    private void criaSensor(Ambiente ambiente){
+    /*private void criaSensor(Ambiente ambiente){
         ClasseEscolher classe = new ClasseEscolher(ambiente);
         System.out.println("Qual o raio do Sensor?");
         int raio = sc.nextInt();
@@ -107,7 +107,7 @@ public class Menu {
                 break;
         }
 
-    }
+    }*/
 
 }
 

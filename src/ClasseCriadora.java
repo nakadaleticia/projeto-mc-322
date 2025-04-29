@@ -1,4 +1,4 @@
-import java.util.Scanner;
+/*import java.util.Scanner;
 
 public class ClasseCriadora {
     Scanner sc = new Scanner(System.in);
@@ -72,4 +72,4 @@ public class ClasseCriadora {
         RoboResgateAereo RoboRA = new RoboResgateAereo(nome,direcao,vida,x,y,altitude,altitudeMaxima,ambiente);
         ambiente.adicionarRobo(RoboRA);
     }
-}
+}*/

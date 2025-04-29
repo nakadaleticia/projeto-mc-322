@@ -28,7 +28,9 @@ public class ClasseEscolher {
     }
     private void verClasse () {
         Robo robo = escolheUm();
+
         if (robo != null) {
+            System.out.println("Voce escolheu o "+ robo.nome + "\n");
             switch (robo) {
                 case RoboLancaChamas roboLanca -> {
                     ControladorLC controladorLC = new ControladorLC(roboLanca, ambiente);

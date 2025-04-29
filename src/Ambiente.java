@@ -51,15 +51,17 @@ public class Ambiente {
 
     public boolean posicaoOcupada(int x, int y, int z, Robo solicitante) {
         for (Robo r : robosAtivos) {
-            boolean mesmoX = (solicitante.posicaoX == r.posicaoX);
-            boolean mesmoY = (solicitante.posicaoY == r.posicaoY);
-            boolean mesmoZ = (solicitante.posicaoZ == r.posicaoZ);
-
             if (r != solicitante) {
-                return (mesmoX && mesmoY && mesmoZ);
+                boolean mesmoX = (r.posicaoX == x);
+                boolean mesmoY = (r.posicaoY == y);
+                boolean mesmoZ = (r.posicaoZ == z);
+
+                if (mesmoX && mesmoY && mesmoZ) {
+                    return true;
+                }
             }
         }
-
         return false;
     }
+
 }
