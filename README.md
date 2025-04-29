@@ -5,3 +5,5 @@ aos obstáculos que atrapalham os robos de andarem, algumas aos sensores que aux
 Sobre o menu, ele funciona desde o momento que voce roda seu código. Ele é bem explicativo e todas as funções são printadas antes do usuário fazer qualquer ação.
 As ações são desde Criar robô, até escolher algum robo, fazer alguma ação com aquele robo (dependendo de sua subclasse), adicionar sensor e excluir robo.
 No menu, não foi colocado nenhuma ação com obstáculos, pois julgamos a função um pouco complexa, então deixamos ela na main principal.
+Nosso diagrama de Classes:
+![WhatsApp Image 2025-04-28 at 21 26 54](https://github.com/user-attachments/assets/5d504c02-5763-4b76-a71d-ede44080fc04)
