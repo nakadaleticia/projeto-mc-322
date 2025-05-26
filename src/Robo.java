@@ -6,11 +6,12 @@ public class Robo implements Entidade{
     String direcao; // (N, S, L, O)
     int vida;
     int posicaoX, posicaoY, posicaoZ;
-
+    char representacao;
     protected ArrayList<Sensor> sensores; // sensores do robo
     private Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
+    Estado estado;
 
-    public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ, Ambiente ambiente) {
+    public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ,char representacao, Ambiente ambiente) {
         this.nome = nome;
         this.direcao = direcao;
         this.vida = vida;
@@ -18,8 +19,9 @@ public class Robo implements Entidade{
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
         this.ambiente = ambiente;
-
+        this.representacao = representacao;
         this.sensores = new ArrayList<>(); // inicializa sensores
+        this.estado = Estado.Desligado; //valor padrão
 
         // adiciona sensor de proximidade padrão
         SensorProximidade sensorPadrao = new SensorProximidade(3, ambiente);
@@ -77,6 +79,44 @@ public class Robo implements Entidade{
     }
     @Override
     public int getX(){ return posicaoX;}
+
+    @Override
+    public int getY(){return posicaoY;}
+
+    @Override
+    public int getZ(){return posicaoZ;}
+
+    @Override
+    public TipoEntidade getTipo() {return TipoEntidade.ROBO;}
+
+    @Override
+    public String getDescricao(){
+        String tipoEspecificoRobo = this.getClass().getSimpleName();
+        // Monta a string de descrição
+        return "Tipo de Robô: " + tipoEspecificoRobo +
+                ", Nome: '" + this.nome +
+                "', Símbolo no Mapa: '" + this.representacao + //
+                "', Posição: (" + this.posicaoX + "," + this.posicaoY + "," + this.posicaoZ + ")" +
+                ", Vida: " + this.vida +
+                ", Direção: " + this.direcao +
+                ", Estado: " + this.estado;
+    };
+
+    @Override
+    public char getRepresentacao(){return representacao;};
+
+    public Estado getEstado(){return estado;}
+
+    public void ligar() {
+        this.estado = Estado.Ligado;
+        System.out.println("Robô " + this.nome + " ('" + this.representacao + "') ligado.");
+    }
+
+    public void desligar() {
+        this.estado = Estado.Desligado;
+        System.out.println("Robô " + this.nome + " ('" + this.representacao + "') desligado.");
+    }
+
 
 
 
