@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 
-public class Robo {
+public class Robo implements Entidade{
     String nome;
     String direcao; // (N, S, L, O)
     int vida;
@@ -75,6 +75,10 @@ public class Robo {
 
         System.out.println(nome + " se moveu");
     }
+    @Override
+    public int getX(){ return posicaoX;}
+
+
 
     public void exibirPosicao() {
         System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
