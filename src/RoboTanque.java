@@ -9,7 +9,7 @@ o dano do missil é fatal.
 
 import java.util.ArrayList;
 
-public class RoboTanque extends RoboTerrestre {
+public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicavel {
     private int numMissil, blindagem;
     boolean modoDefesa;
 
@@ -20,6 +20,7 @@ public class RoboTanque extends RoboTerrestre {
         this.modoDefesa = false;
     }
 
+    // ativa o modo defesa (reduz dano e consome blindagem)
     public void ativarModoDefesa() {
         if (blindagem > 0) {
             modoDefesa = true;
@@ -30,6 +31,7 @@ public class RoboTanque extends RoboTerrestre {
         }
     }
 
+    // sobreescreve o receberDano para aplicar o modo defesa
     @Override
     protected void receberDano(int dano) {
         if (modoDefesa) {
@@ -48,6 +50,7 @@ public class RoboTanque extends RoboTerrestre {
         }
     }
 
+    // recarrega os misseis (máximo de 2)
     public void recarregarMissil() {
         if (numMissil < 2) {
             numMissil = 2;
@@ -57,6 +60,7 @@ public class RoboTanque extends RoboTerrestre {
         }
     }
 
+    // dispara um míssil em outro robô (causa dano fatal)
     public void dispararMissil(Robo alvo) {
         if (numMissil > 0) {
             numMissil--;
@@ -65,5 +69,33 @@ public class RoboTanque extends RoboTerrestre {
         } else {
             System.out.println(nome + " nao possui mísseis restantes. é necessário recarregar");
         }
+    }
+
+    /* implementação da interface Sensoreavel */
+    public void acionarSensores() throws RoboDesligadoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
+        }
+        this.usarSensores();
+    }
+
+    /* implementação da interface Comunicavel */
+    @Override
+    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não pode enviar mensagem.");
+        }
+        if (destinatario == null) {
+            throw new ErroComunicacaoException("Destinatário inválido.");
+        }
+        destinatario.receberMensagem("De " + nome + ": " + mensagem);
+    }
+
+    @Override
+    public void receberMensagem(String mensagem) throws RoboDesligadoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não pode receber mensagens.");
+        }
+        System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
     }
 }

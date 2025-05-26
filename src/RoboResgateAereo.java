@@ -4,7 +4,7 @@ cada robo pode carregar até 5 vitimas.
 cada robo tem um modo emergencia, que eleva o robo ate sua altitude maxima (evacuacao e resgate).
 */
 
-public class RoboResgateAereo extends RoboAereo {
+public class RoboResgateAereo extends RoboAereo implements Sensoreavel {
     int capacidadeVitimas;
     boolean modoEmergencia;
 
@@ -14,6 +14,7 @@ public class RoboResgateAereo extends RoboAereo {
         this.modoEmergencia = false;
     }
 
+    // ativa o modo emergência, eleva o robô para a altitude máxima
     public void ativarModoEmergencia() {
         if (!modoEmergencia) {
             modoEmergencia = true;
@@ -24,6 +25,7 @@ public class RoboResgateAereo extends RoboAereo {
         }
     }
 
+    // resgata uma vítima em uma posição específica
     public void resgatarVitima(int posicaoVitimaX, int posicaoVitimaY) {
         int deltaX = posicaoVitimaX - posicaoX;
         int deltaY = posicaoVitimaY - posicaoY;
@@ -41,6 +43,7 @@ public class RoboResgateAereo extends RoboAereo {
         }
     }
 
+    // leva todas as vítimas para uma posição de evacuação
     public void evacuacaoDeVitimas(int posicaoEvacuacaoX, int posicaoEvacuacaoY) {
         int deltaX = posicaoEvacuacaoX - posicaoX;
         int deltaY = posicaoEvacuacaoY - posicaoY;
@@ -48,5 +51,13 @@ public class RoboResgateAereo extends RoboAereo {
         mover(deltaX, deltaY, 0, -1);
         System.out.println(nome + " levou suas vítimas para (" + posicaoEvacuacaoX + ", " + posicaoEvacuacaoY + ")");
         capacidadeVitimas = 5;
+    }
+
+    // implementa a interface Sensoreavel
+    public void acionarSensores() throws RoboDesligadoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
+        }
+        this.usarSensores();
     }
 }

@@ -5,7 +5,7 @@ cada robo tem um modo de reconhecimento, que eleva o robo ate sua altitude maxim
 
 import java.util.ArrayList;
 
-public class RoboReconhecimento extends RoboAereo {
+public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comunicavel {
     boolean modoReconhecimento;
     ArrayList<Robo> mapaReconhecimento;
 
@@ -15,6 +15,7 @@ public class RoboReconhecimento extends RoboAereo {
         this.mapaReconhecimento = new ArrayList<>();
     }
 
+    // ativa o modo de reconhecimento e sobe para a altitude máxima
     public void ativarModoReconhecimento() {
         if (!modoReconhecimento) {
             modoReconhecimento = true;
@@ -23,5 +24,33 @@ public class RoboReconhecimento extends RoboAereo {
         } else {
             System.out.println(nome + " já está em modo reconhecimento");
         }
+    }
+
+    // implementa a interface Sensoreavel
+    public void acionarSensores() throws RoboDesligadoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
+        }
+        this.usarSensores();
+    }
+
+    // implementa a interface Comunicavel
+    @Override
+    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não pode enviar mensagem.");
+        }
+        if (destinatario == null) {
+            throw new ErroComunicacaoException("Destinatário inválido.");
+        }
+        destinatario.receberMensagem("De " + nome + ": " + mensagem);
+    }
+
+    @Override
+    public void receberMensagem(String mensagem) throws RoboDesligadoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não pode receber mensagens.");
+        }
+        System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
     }
 }
