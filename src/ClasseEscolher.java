@@ -16,7 +16,7 @@ public class ClasseEscolher {
         int cont = 0;
         for (Robo robo : robosAtivos) {
             cont ++;
-            System.out.println(robo.nome + cont);
+            System.out.println(cont + " - "+  robo.nome);
 
         }
     }
