@@ -6,7 +6,7 @@ o disparo da chama gasta 5L de combustível.
 o dano da chama é de 20% da vida do robo alvo.
 */
 
-public class RoboLancaChamas extends RoboTerrestre {
+public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel {
     private int numCombustivel;
 
     public RoboLancaChamas(String nome, String direcao, int vida, int posicaoX, int posicaoY, int velocidadeMaxima, Ambiente ambiente) {
@@ -14,6 +14,7 @@ public class RoboLancaChamas extends RoboTerrestre {
         this.numCombustivel = 100;
     }
 
+    // recarrega o tanque de combustível (100L)
     public void recarregarCombustivel() {
         if (numCombustivel < 100) {
             numCombustivel = 100;
@@ -23,6 +24,7 @@ public class RoboLancaChamas extends RoboTerrestre {
         }
     }
 
+    // dispara chama em outro robô (20% de dano)
     public void lancarChamas(Robo alvo) {
         if (numCombustivel > 0) {
             numCombustivel -= 5;
@@ -32,5 +34,13 @@ public class RoboLancaChamas extends RoboTerrestre {
         } else {
             System.out.println(nome + " nao pode ater fogo. é necessário reabastecer o tanque de combustivel");
         }
+    }
+
+    // implementa a interface Sensoreavel
+    public void acionarSensores() throws RoboDesligadoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
+        }
+        this.usarSensores();
     }
 }

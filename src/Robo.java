@@ -1,14 +1,14 @@
-
 import java.util.ArrayList;
 
-public class Robo implements Entidade{
-    String nome;
+public class Robo implements Entidade {
+    String nome; // nome do robô
     String direcao; // (N, S, L, O)
     int vida;
     int posicaoX, posicaoY, posicaoZ;
+    protected boolean ligado = true; // estado do robô: ligado ou desligado
 
-    protected ArrayList<Sensor> sensores; // sensores do robo
-    private Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
+    protected ArrayList<Sensor> sensores; // sensores do robô
+    private Ambiente ambiente; // ambiente em que o robô está
 
     public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ, Ambiente ambiente) {
         this.nome = nome;
@@ -26,8 +26,8 @@ public class Robo implements Entidade{
         this.adicionarSensor(sensorPadrao);
     }
 
+    // adiciona um sensor ao robô
     public void adicionarSensor(Sensor sensor) {
-
         sensores.add(sensor);
         System.out.println("Sensor adicionado com sucesso em " + this.nome);
     }
@@ -36,13 +36,14 @@ public class Robo implements Entidade{
         return ambiente;
     }
 
+    // usa todos os sensores do robô
     public void usarSensores() {
         for (Sensor s : sensores) {
             s.monitorar(this);
         }
     }
 
-    // receberDano: aplica dano ao robo
+    // receberDano: aplica dano ao robô e verifica se foi destruído
     protected void receberDano(int dano) {
         vida -= dano;
 
@@ -57,6 +58,7 @@ public class Robo implements Entidade{
         }
     }
 
+    // move o robô no ambiente (se a posição for válida e não ocupada)
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
         int novoX = posicaoX + deltaX;
         int novoY = posicaoY + deltaY;
@@ -75,12 +77,58 @@ public class Robo implements Entidade{
 
         System.out.println(nome + " se moveu");
     }
-    @Override
-    public int getX(){ return posicaoX;}
 
-
-
+    // exibe a posição atual do robô
     public void exibirPosicao() {
         System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
+    }
+
+    /* métodos obrigatórios da interface Entidade */
+
+    @Override
+    public int getX() {
+        return posicaoX;
+    }
+
+    @Override
+    public int getY() {
+        return posicaoY;
+    }
+
+    @Override
+    public int getZ() {
+        return posicaoZ;
+    }
+
+    @Override
+    public TipoEntidade getTipo() {
+        return TipoEntidade.ROBO;
+    }
+
+    @Override
+    public String getDescricao() {
+        return "Robô do tipo " + this.getClass().getSimpleName() + " chamado " + nome;
+    }
+
+    @Override
+    public char representacao() {
+        return 'R'; // pode alterar para diferenciar tipos de robôs
+    }
+
+    // verifica se o robô está ligado
+    public boolean estaLigado() {
+        return ligado;
+    }
+
+    // liga o robô
+    public void ligar() {
+        ligado = true;
+        System.out.println(nome + " foi ligado.");
+    }
+
+    // desliga o robô
+    public void desligar() {
+        ligado = false;
+        System.out.println(nome + " foi desligado.");
     }
 }
