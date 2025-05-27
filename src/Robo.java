@@ -55,7 +55,7 @@ public class Robo implements Entidade {
         }
     }
 
-    // mover o robô (usando o método do Ambiente)
+    // mover o robô (usando o metodo do Ambiente)
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
         int novoX = posicaoX + deltaX;
         int novoY = posicaoY + deltaY;
@@ -64,8 +64,13 @@ public class Robo implements Entidade {
         try {
             ambiente.moverEntidade(this, novoX, novoY, novoZ);
             setPosicao(novoX, novoY, novoZ);
+            System.out.println(nome + " se moveu para (" + novoX + ", " + novoY + ", " + novoZ + ")");
+        } catch (ForaDosLimitesException e) {
+            System.out.println(nome + " não pode se mover para fora dos limites: " + e.getMessage());
+        } catch (ColisaoException e) {
+            System.out.println(nome + " não pode se mover para uma posição ocupada: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Erro ao mover: " + e.getMessage());
+            System.out.println("Erro desconhecido ao mover: " + e.getMessage());
         }
     }
 

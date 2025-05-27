@@ -17,8 +17,13 @@ public class RoboResgateAereo extends RoboAereo implements Sensoreavel, Resgatad
     public void ativarModoEmergencia() {
         if (!modoEmergencia) {
             modoEmergencia = true;
-            System.out.println("modo emergência ativado. " + nome + " está subindo...");
-            subir(altitudeMaxima - posicaoZ);
+            int alturaParaSubir = altitudeMaxima - posicaoZ;
+            if (alturaParaSubir > 0) {
+                System.out.println("modo emergência ativado. " + nome + " está subindo...");
+                subir(alturaParaSubir);
+            } else {
+                System.out.println(nome + " já está na altitude máxima.");
+            }
         } else {
             System.out.println(nome + " já está em modo resgate");
         }
