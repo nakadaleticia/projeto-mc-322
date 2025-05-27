@@ -22,4 +22,9 @@ public class RoboAereo extends Robo {
 
         super.mover(0,0, novoZ, -1);
     }
+
+    @Override
+    public void executarTarefa() {
+
+    }
 }
