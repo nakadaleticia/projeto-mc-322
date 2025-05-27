@@ -1,12 +1,12 @@
 public class Obstaculo implements Entidade {
-    final int posicaoX1, posicaoY1,posicaoX2,posicaoY2;
+    final int posicaoX1, posicaoX2, posicaoY1, posicaoY2;
     final int altura;
     TipoObstaculo tipo;
 
-    public Obstaculo(int posicaoX1, int posicaoY1,int posicaoX2,int posicaoY2, int altura, TipoObstaculo tipo) {
+    public Obstaculo(int posicaoX1, int posicaoX2, int posicaoY1, int posicaoY2, int altura, TipoObstaculo tipo) {
         this.posicaoX1 = posicaoX1;
-        this.posicaoY1 = posicaoY1;
         this.posicaoX2 = posicaoX2;
+        this.posicaoY1 = posicaoY1;
         this.posicaoY2 = posicaoY2;
         this.altura = altura;
         this.tipo = tipo;
@@ -38,20 +38,23 @@ public class Obstaculo implements Entidade {
         return posicaoX1;
     }
 
-    public int getPosicaoX2(){return posicaoX2;}
-
-    public int getPosicaoY2(){return posicaoY2;}
+    public int getPosicaoX2() {
+        return posicaoX2;
+    }
 
     public int getPosicaoY1() {
         return posicaoY1;
     }
 
+    public int getPosicaoY2() {
+        return posicaoY2;
+    }
 
     public int getAltura() {
         return altura;
     }
 
-    public TipoObstaculo getTipoInt() {
+    public TipoObstaculo getTipoObstaculo() {
         return tipo;
     }
 }

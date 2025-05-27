@@ -16,11 +16,11 @@ public class RoboTerrestre extends Robo {
     @Override
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
         int velocidade = calcularVelocidade(deltaX, deltaY, tempo);
-
-        if (velocidade <= velocidadeMaxima) {
-            super.mover(deltaX, deltaY,0, tempo);
-        } else {
+        if (velocidade > velocidadeMaxima) {
             System.out.println(nome + " não pode se mover. limite de velocidade excedido");
+            return;
         }
+        super.mover(deltaX, deltaY, deltaZ, tempo); // aqui ele trata limites e colisão!
     }
+
 }

@@ -1,14 +1,14 @@
-
 import java.util.ArrayList;
 
-public abstract class Robo implements Entidade{
-    String nome;
-    String direcao; // (N, S, L, O)
-    int vida;
-    int posicaoX, posicaoY, posicaoZ;
+public abstract class Robo implements Entidade {
+    protected String nome; // modificado para protected
+    protected String direcao; // (N, S, L, O)
+    protected int vida;
+    protected int posicaoX, posicaoY, posicaoZ;
+    protected boolean ligado = true;
+
     protected ArrayList<Sensor> sensores; // sensores do robo
-    private final Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
-    Estado estado;
+    private Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
 
     public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ, Ambiente ambiente) {
         this.nome = nome;
@@ -18,16 +18,18 @@ public abstract class Robo implements Entidade{
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
         this.ambiente = ambiente;
+
         this.sensores = new ArrayList<>(); // inicializa sensores
-        this.estado = Estado.Desligado; //valor padrão
 
         // adiciona sensor de proximidade padrão
         SensorProximidade sensorPadrao = new SensorProximidade(3, ambiente);
         this.adicionarSensor(sensorPadrao);
     }
+    public String getNome(){return nome;}
+
+    public int getVida(){return vida;}
 
     public void adicionarSensor(Sensor sensor) {
-
         sensores.add(sensor);
         System.out.println("Sensor adicionado com sucesso em " + this.nome);
     }
@@ -36,6 +38,7 @@ public abstract class Robo implements Entidade{
         return ambiente;
     }
 
+    // usa todos os sensores do robô
     public void usarSensores() {
         for (Sensor s : sensores) {
             s.monitorar(this);
@@ -52,24 +55,25 @@ public abstract class Robo implements Entidade{
             System.out.println(nome + " foi destruído!");
 
             if (ambiente != null) {
-                ambiente.removerRobo(this);
+                ambiente.removerEntidade(this);
             }
         }
     }
 
-    public void mover(int deltaX, int deltaY, int deltaZ, int tempo) throws RoboDesligadoException{
-        if (this.estado == Estado.Desligado) {
-            throw new RoboDesligadoException("O robô '" + this.nome + "' está desligado e não pode se mover.");
-        }
+    // mover o robô (usando o metodo do Ambiente)
+    public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
         int novoX = posicaoX + deltaX;
         int novoY = posicaoY + deltaY;
         int novoZ = posicaoZ + deltaZ;
 
-        if (ambiente.posicaoOcupada(novoX, novoY, novoZ, this)) {
-            System.out.println(nome + " nao pode se mover para uma posicao ocupada");
-        } else if (!ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
-            System.out.println(nome + " nao pode se mover para fora dos limites");
-            return;
+        try {
+            ambiente.moverEntidade(this, novoX, novoY, novoZ);
+            setPosicao(novoX, novoY, novoZ);
+            System.out.println(nome + " se moveu para (" + novoX + ", " + novoY + ", " + novoZ + ")");
+        } catch (ForaDosLimitesException e) {
+            System.out.println(nome + " não pode se mover: " + e.getMessage());
+        } catch (ColisaoException e) {
+            System.out.println(nome + " não pode se mover: " + e.getMessage());
         }
 
         posicaoX = novoX;
@@ -78,50 +82,79 @@ public abstract class Robo implements Entidade{
 
         System.out.println(nome + " se moveu");
     }
-    @Override
-    public int getX(){ return posicaoX;}
+
+    public void exibirPosicao() {
+        System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
+    }
+
+    /* Métodos obrigatórios da interface Entidade */
 
     @Override
-    public int getY(){return posicaoY;}
+    public int getX() {
+        return posicaoX;
+    }
 
     @Override
-    public int getZ(){return posicaoZ;}
+    public int getY() {
+        return posicaoY;
+    }
 
     @Override
-    public TipoEntidade getTipo() {return TipoEntidade.ROBO;}
+    public int getZ() {
+        return posicaoZ;
+    }
 
     @Override
-    public String getDescricao(){
+    public TipoEntidade getTipo() {
+        return TipoEntidade.ROBO;
+    }
+
+    @Override
+    public String getDescricao() {
         String tipoEspecificoRobo = this.getClass().getSimpleName();
-        // Monta a string de descrição
+        // Monta a 'string' de descrição
         return "Tipo de Robô: " + tipoEspecificoRobo +
                 ", Nome: '" + this.nome +
                 "', Símbolo no Mapa: R'" + //
                 "', Posição: (" + this.posicaoX + "," + this.posicaoY + "," + this.posicaoZ + ")" +
                 ", Vida: " + this.vida +
                 ", Direção: " + this.direcao +
-                ", Estado: " + this.estado;
-    };
-
-    @Override
-    public char getRepresentacao(){return 'R';};
-
-    public Estado getEstado(){return estado;}
-
-    public void ligar() {
-        this.estado = Estado.Ligado;
-        System.out.println("Robô " + this.nome + " ligado.");
+                ", Estado: " + (ligado ? "sim":"não") ;
     }
 
+    ;
+
+    @Override
+    public char getRepresentacao() {
+        return 'R';
+    }
+
+    ;
+
+    // verifica se o robô está ligado
+    public boolean estaLigado() {
+        return ligado;
+    }
+
+    // liga o robô
+    public void ligar() {
+        ligado = true;
+        System.out.println(nome + " foi ligado.");
+    }
+
+    // desliga o robô
     public void desligar() {
-        this.estado = Estado.Desligado;
-        System.out.println("Robô " + this.nome + " desligado.");
+        ligado = false;
+        System.out.println(nome + " foi desligado.");
+    }
+
+    // atualizar posição (usado pelo Ambiente)
+    public void setPosicao(int x, int y, int z) {
+        this.posicaoX = x;
+        this.posicaoY = y;
+        this.posicaoZ = z;
     }
 
     public abstract void executarTarefa();
 
-
-    public void exibirPosicao() {
-        System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
-    }
 }

@@ -1,15 +1,15 @@
 /*
-roboTanque: responsável por atirar misseis em robos alvos.
-cada robo pode carregar ate 2 misseis (misseis sao recarregaveis).
-cada robo tem um modo defesa, que reduz o dano recebido em 20%.
-o modo defesa pode ser utilizado ate 4 vezes (blindagem).
-o modo defesa precisa ser reativado apos o robo receber dano.
-o dano do missil é fatal.
+roboTanque: responsável por atirar mísseis em robôs alvos.
+cada robô pode carregar até 2 mísseis (mísseis são recarregáveis).
+cada robô tem um modo defesa, que reduz o dano recebido em 20%.
+o modo defesa pode ser utilizado até 4 vezes (blindagem).
+o modo defesa precisa ser reativado após o robô receber dano.
+o dano do míssil é fatal.
 */
 
 import java.util.ArrayList;
 
-public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicavel {
+public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicavel, Atacante, Autonomo {
     private int numMissil, blindagem;
     boolean modoDefesa;
 
@@ -20,18 +20,16 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
         this.modoDefesa = false;
     }
 
-    // ativa o modo defesa (reduz dano e consome blindagem)
     public void ativarModoDefesa() {
         if (blindagem > 0) {
             modoDefesa = true;
             blindagem--;
             System.out.println(nome + " ativou o modo defesa. blindagem restante: " + blindagem);
         } else {
-            System.out.println(nome + " nao pode ativar o modo defesa. nenhuma blindagem restante");
+            System.out.println(nome + " não pode ativar o modo defesa. nenhuma blindagem restante");
         }
     }
 
-    // sobreescreve o receberDano para aplicar o modo defesa
     @Override
     protected void receberDano(int dano) {
         if (modoDefesa) {
@@ -45,12 +43,11 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
         }
 
         if (vida <= 0 && getAmbiente() != null) {
-            getAmbiente().removerRobo(this);
+            getAmbiente().removerEntidade(this);
             System.out.println(nome + " foi destruído!");
         }
     }
 
-    // recarrega os misseis (máximo de 2)
     public void recarregarMissil() {
         if (numMissil < 2) {
             numMissil = 2;
@@ -60,18 +57,25 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
         }
     }
 
-    // dispara um míssil em outro robô (causa dano fatal)
     public void dispararMissil(Robo alvo) {
         if (numMissil > 0) {
             numMissil--;
-            System.out.println(nome + " disparou míssil em " + alvo.nome);
-            alvo.receberDano(alvo.vida); // dano fatal
+            System.out.println(nome + " disparou míssil em " + alvo.getNome());
+            alvo.receberDano(alvo.getVida());
         } else {
-            System.out.println(nome + " nao possui mísseis restantes. é necessário recarregar");
+            System.out.println(nome + " não possui mísseis restantes. é necessário recarregar");
         }
     }
 
-    /* implementação da interface Sensoreavel */
+    @Override
+    public void atacar(Entidade alvo) {
+        if (alvo instanceof Robo roboAlvo) {
+            dispararMissil(roboAlvo);
+        } else {
+            System.out.println("Alvo inválido para ataque.");
+        }
+    }
+
     public void acionarSensores() throws RoboDesligadoException {
         if (!this.estaLigado()) {
             throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
@@ -79,7 +83,6 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
         this.usarSensores();
     }
 
-    /* implementação da interface Comunicavel */
     @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
         if (!this.estaLigado()) {
@@ -97,5 +100,12 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
             throw new RoboDesligadoException(nome + " está desligado! Não pode receber mensagens.");
         }
         System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
+    }
+
+    // Implementação da interface Autonomo
+    @Override
+    public void executarTarefa() {
+        System.out.println(nome + " executando tarefa automática: atacando alvo padrão.");
+        atacar(this);
     }
 }
