@@ -1,11 +1,11 @@
 /*
 roboReconhecimento: responsável por realizar um reconhecimento do mapa.
-cada robo tem um modo de reconhecimento, que eleva o robo ate sua altitude maxima.
+cada robô tem um modo de reconhecimento, que eleva o robô até sua altitude máxima.
 */
 
 import java.util.ArrayList;
 
-public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comunicavel {
+public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comunicavel, Mapeador, Autonomo {
     boolean modoReconhecimento;
     ArrayList<Robo> mapaReconhecimento;
 
@@ -15,7 +15,6 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
         this.mapaReconhecimento = new ArrayList<>();
     }
 
-    // ativa o modo de reconhecimento e sobe para a altitude máxima
     public void ativarModoReconhecimento() {
         if (!modoReconhecimento) {
             modoReconhecimento = true;
@@ -26,7 +25,12 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
         }
     }
 
-    // implementa a interface Sensoreavel
+    @Override
+    public void mapearAmbiente() {
+        System.out.println(nome + " está mapeando o ambiente.");
+        // implementar lógica de mapeamento se desejar
+    }
+
     public void acionarSensores() throws RoboDesligadoException {
         if (!this.estaLigado()) {
             throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
@@ -34,7 +38,6 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
         this.usarSensores();
     }
 
-    // implementa a interface Comunicavel
     @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
         if (!this.estaLigado()) {
@@ -52,5 +55,12 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
             throw new RoboDesligadoException(nome + " está desligado! Não pode receber mensagens.");
         }
         System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
+    }
+
+    // Implementação da interface Autonomo
+    @Override
+    public void executarTarefa() {
+        System.out.println(nome + " executando tarefa automática: mapeando o ambiente.");
+        mapearAmbiente();
     }
 }

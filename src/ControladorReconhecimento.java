@@ -2,15 +2,18 @@ import java.util.Scanner;
 
 public class ControladorReconhecimento {
     private final RoboReconhecimento robo;
+
     public ControladorReconhecimento(RoboReconhecimento robo) {
         this.robo = robo;
     }
+
     public void iniciar() {
         mostrar();
         Scanner teclado = new Scanner(System.in);
         String opcao = teclado.nextLine();
         executarAcao(opcao);
     }
+
     public void mostrar() {
         System.out.println("\n=== CONTROLE RECONHECIMENTO ===");
         System.out.println("w a s d (mover)");
@@ -23,25 +26,26 @@ public class ControladorReconhecimento {
         System.out.println("6 - Descer");
         System.out.println("7 - Usar Sensor(es)");
     }
+
     public void executarAcao(String opcao) {
         Scanner sc = new Scanner(System.in);
         switch (opcao) {
             case "w":
-                robo.mover(0,1,0,1);
+                robo.mover(0, 1, 0, 1);
                 break;
             case "a":
-                robo.mover(-1,0,0,1);
+                robo.mover(-1, 0, 0, 1);
                 break;
             case "s":
-                robo.mover(0,-1,0,1);
+                robo.mover(0, -1, 0, 1);
                 break;
             case "d":
-                robo.mover(1,0,0,-1);
+                robo.mover(1, 0, 0, -1);
                 break;
             case "0":
                 break;
             case "1":
-                System.out.println("Quando dano ele receberá?");
+                System.out.println("Quanto dano ele receberá?");
                 int dano = sc.nextInt();
                 robo.receberDano(dano);
                 break;
@@ -70,10 +74,14 @@ public class ControladorReconhecimento {
                 robo.descer(desc);
                 break;
             case "7":
-                robo.usarSensores();
+                try {
+                    robo.acionarSensores();
+                } catch (RoboDesligadoException e) {
+                    System.out.println("Erro: " + e.getMessage());
+                }
                 break;
-
+            default:
+                System.out.println("Opção inválida.");
         }
-
     }
 }
