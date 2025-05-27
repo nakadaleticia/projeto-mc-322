@@ -1,17 +1,16 @@
 
 import java.util.ArrayList;
 
-public class Robo implements Entidade{
+public abstract class Robo implements Entidade{
     String nome;
     String direcao; // (N, S, L, O)
     int vida;
     int posicaoX, posicaoY, posicaoZ;
-    char representacao;
     protected ArrayList<Sensor> sensores; // sensores do robo
-    private Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
+    private final Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
     Estado estado;
 
-    public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ,char representacao, Ambiente ambiente) {
+    public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ, Ambiente ambiente) {
         this.nome = nome;
         this.direcao = direcao;
         this.vida = vida;
@@ -19,7 +18,6 @@ public class Robo implements Entidade{
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
         this.ambiente = ambiente;
-        this.representacao = representacao;
         this.sensores = new ArrayList<>(); // inicializa sensores
         this.estado = Estado.Desligado; //valor padrão
 
@@ -59,7 +57,10 @@ public class Robo implements Entidade{
         }
     }
 
-    public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
+    public void mover(int deltaX, int deltaY, int deltaZ, int tempo) throws RoboDesligadoException{
+        if (this.estado == Estado.Desligado) {
+            throw new RoboDesligadoException("O robô '" + this.nome + "' está desligado e não pode se mover.");
+        }
         int novoX = posicaoX + deltaX;
         int novoY = posicaoY + deltaY;
         int novoZ = posicaoZ + deltaZ;
@@ -95,7 +96,7 @@ public class Robo implements Entidade{
         // Monta a string de descrição
         return "Tipo de Robô: " + tipoEspecificoRobo +
                 ", Nome: '" + this.nome +
-                "', Símbolo no Mapa: '" + this.representacao + //
+                "', Símbolo no Mapa: R'" + //
                 "', Posição: (" + this.posicaoX + "," + this.posicaoY + "," + this.posicaoZ + ")" +
                 ", Vida: " + this.vida +
                 ", Direção: " + this.direcao +
@@ -103,21 +104,21 @@ public class Robo implements Entidade{
     };
 
     @Override
-    public char getRepresentacao(){return representacao;};
+    public char getRepresentacao(){return 'R';};
 
     public Estado getEstado(){return estado;}
 
     public void ligar() {
         this.estado = Estado.Ligado;
-        System.out.println("Robô " + this.nome + " ('" + this.representacao + "') ligado.");
+        System.out.println("Robô " + this.nome + " ligado.");
     }
 
     public void desligar() {
         this.estado = Estado.Desligado;
-        System.out.println("Robô " + this.nome + " ('" + this.representacao + "') desligado.");
+        System.out.println("Robô " + this.nome + " desligado.");
     }
 
-
+    public abstract void executarTarefa();
 
 
     public void exibirPosicao() {

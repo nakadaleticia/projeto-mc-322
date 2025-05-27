@@ -44,8 +44,8 @@ public class SensorProximidade extends Sensor {
 
             if (distancia <= raio) {
                 encontrouAlgo = true;
-                System.out.println("- Obstáculo detectado: " + o.getTipo() +
-                        " (altura=" + o.getAltura() + ", bloqueiaPassagem=" + o.getTipo().isBloqueiaPassagem() + ")" +
+                System.out.println("- Obstáculo detectado: " + o.getTipoInt() +
+                        " (altura=" + o.getAltura() + ", bloqueiaPassagem=" + o.getTipoInt().isBloqueiaPassagem() + ")" +
                         " a " + distancia + " unidades. Posição aproximada: (" + centroX + ", " + centroY + ")");
             }
         }

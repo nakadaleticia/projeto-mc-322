@@ -4,6 +4,7 @@ public class Ambiente {
     int largura, altura, altitude; // (eixo x, eixo y, eixo z)
     private ArrayList<Robo> robosAtivos; // lista de robos ativos no mapa
     private ArrayList<Obstaculo> obstaculos; // lista de obstaculos no mapa
+    private Entidade[][][] mapa;
 
     public Ambiente(int largura, int altura, int altitude, ArrayList<Robo> robosAtivos) {
         this.largura = largura;
@@ -30,7 +31,7 @@ public class Ambiente {
 
     public void adicionarObstaculo(Obstaculo o) {
         obstaculos.add(o);
-        System.out.println("obstáculo do tipo " + o.getTipo() + " adicionado ao ambiente.");
+        System.out.println("obstáculo do tipo " + o.getTipoInt() + " adicionado ao ambiente.");
     }
 
     public ArrayList<Robo> getRobosAtivos() {
@@ -63,5 +64,14 @@ public class Ambiente {
         }
         return false;
     }
-
+    private void inicializarMapa() {
+        for (int x = 0; x < largura; x++) {
+            for (int y = 0; y < altura; y++) {
+                for (int z = 0; z < altitude; z++) {
+                    // Aqui você cria uma NOVA INSTÂNCIA da classe Vazio para cada célula
+                    mapa[x][y][z] = new Vazio(x, y, z);
+                }
+            }
+        }
+    }
 }
