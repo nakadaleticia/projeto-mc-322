@@ -66,13 +66,12 @@ public class Robo implements Entidade {
             setPosicao(novoX, novoY, novoZ);
             System.out.println(nome + " se moveu para (" + novoX + ", " + novoY + ", " + novoZ + ")");
         } catch (ForaDosLimitesException e) {
-            System.out.println(nome + " não pode se mover para fora dos limites: " + e.getMessage());
+            System.out.println(nome + " não pode se mover: " + e.getMessage());
         } catch (ColisaoException e) {
-            System.out.println(nome + " não pode se mover para uma posição ocupada: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Erro desconhecido ao mover: " + e.getMessage());
+            System.out.println(nome + " não pode se mover: " + e.getMessage());
         }
     }
+
 
     public void exibirPosicao() {
         System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");

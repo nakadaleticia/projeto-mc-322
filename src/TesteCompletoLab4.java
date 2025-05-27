@@ -9,6 +9,7 @@ public class TesteCompletoLab4 {
 
         // Criar robôs
         System.out.println("\nTestando criação de robôs...");
+        // RoboTanque(nome, direcao, vida, x, y, velocidadeMaxima, ambiente)
         RoboTanque tanque = new RoboTanque("Tanque", "N", 100, 1, 1, 2, ambiente);
         RoboLancaChamas chama = new RoboLancaChamas("Chamas", "L", 100, 2, 2, 3, ambiente);
         RoboResgateAereo resgate = new RoboResgateAereo("Resgate", "O", 100, 3, 3, 1, 5, ambiente);
@@ -28,22 +29,24 @@ public class TesteCompletoLab4 {
 
         // Testar movimentação válida
         System.out.println("\nTestando movimentação válida...");
-        tanque.mover(1, 0, 0, 1); // deve andar para x=2,y=1,z=2
+        tanque.mover(1, 0, 0, 1); // distancia=1, tempo=1, velocidade=1 <= 2 (ok)
         System.out.println("Esperado: Movimento para (2,1,2) confirmado");
         tanque.exibirPosicao();
 
-        // Testar movimentação fora dos limites (deve lançar exceção)
+        // Testar movimentação fora dos limites
         System.out.println("\nTestando movimentação fora dos limites...");
+        // Vamos andar 9 unidades (de 2,1 até 11,1) em 10 segundos, velocidade = 0.9 <= 2 (ok)
         try {
-            tanque.mover(100, 0, 0, 1);
+            tanque.mover(9, 0, 0, 10);
         } catch (Exception e) {
             System.out.println("Esperado: Erro ao mover fora dos limites: " + e.getMessage());
         }
 
         // Testar movimentação para posição ocupada (obstáculo)
         System.out.println("\nTestando movimentação para posição ocupada...");
+        // Vamos andar de (2,1) para (5,5) em 6 segundos, distancia=5, velocidade ~0.83 <= 2 (ok)
         try {
-            tanque.mover(3, 4, -1, 1); // tentando ir para a posição do obstáculo
+            tanque.mover(3, 4, -1, 6); // (2+3,1+4,2-1) = (5,5,1), onde há obstáculo
         } catch (Exception e) {
             System.out.println("Esperado: Erro de colisão: " + e.getMessage());
         }
