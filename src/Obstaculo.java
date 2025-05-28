@@ -31,7 +31,7 @@ public class Obstaculo implements Entidade {
     public String getDescricao(){
         return "Tipo de obstáculo:" + tipo +
                 "Caracter representante: O" +
-                "Posição: " + "(" + ((this.posicaoX1+this.posicaoX2)/2) +  ((this.posicaoY1+this.posicaoY2)/2) + ")" ;
+                "Posição: " + "(" + ((this.posicaoX1+this.posicaoX2)/2) +  ((this.posicaoY1+this.posicaoY2)/2) + ")," ;
     }
 
     public int getPosicaoX1() {

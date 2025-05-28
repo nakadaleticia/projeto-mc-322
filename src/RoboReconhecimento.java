@@ -30,7 +30,7 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
         System.out.println(nome + " está mapeando o ambiente.");
         // implementar lógica de mapeamento se desejar
     }
-
+    @Override
     public void acionarSensores() throws RoboDesligadoException {
         if (!this.estaLigado()) {
             throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");

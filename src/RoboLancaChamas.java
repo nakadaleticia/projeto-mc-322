@@ -42,7 +42,7 @@ public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel, Comun
             System.out.println("Alvo inválido para ataque.");
         }
     }
-
+    @Override
     public void acionarSensores() throws RoboDesligadoException {
         if (!this.estaLigado()) {
             throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");

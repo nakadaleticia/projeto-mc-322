@@ -76,11 +76,11 @@ public abstract class Robo implements Entidade {
             System.out.println(nome + " não pode se mover: " + e.getMessage());
         }
 
-        posicaoX = novoX;
-        posicaoY = novoY;
-        posicaoZ = novoZ;
+        //posicaoX = novoX;
+        //posicaoY = novoY;
+        //posicaoZ = novoZ;
 
-        System.out.println(nome + " se moveu");
+        //System.out.println(nome + " se moveu");
     }
 
     public void exibirPosicao() {
@@ -119,7 +119,7 @@ public abstract class Robo implements Entidade {
                 "', Posição: (" + this.posicaoX + "," + this.posicaoY + "," + this.posicaoZ + ")" +
                 ", Vida: " + this.vida +
                 ", Direção: " + this.direcao +
-                ", Estado: " + (ligado ? "sim":"não") ;
+                ", Estado: " + (ligado ? "ligado,":"desligado,") ;
     }
 
     ;

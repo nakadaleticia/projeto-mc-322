@@ -84,8 +84,12 @@ public class Ambiente {
                         break;
                     }
                 }
+                System.out.print(simbolo + " ");
             }
+            System.out.println();
+
         }
+
 
     }
 

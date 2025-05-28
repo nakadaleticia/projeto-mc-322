@@ -75,7 +75,7 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
             System.out.println("Alvo inválido para ataque.");
         }
     }
-
+    @Override
     public void acionarSensores() throws RoboDesligadoException {
         if (!this.estaLigado()) {
             throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");

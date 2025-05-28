@@ -25,6 +25,9 @@ public class ControladorReconhecimento {
         System.out.println("5 - Subir");
         System.out.println("6 - Descer");
         System.out.println("7 - Usar Sensor(es)");
+        System.out.println("8 - Mandar mensagem");
+        System.out.println("9 - Receber mensagem");
+        System.out.println("10 - Executar tarefa");
     }
 
     public void executarAcao(String opcao) {
@@ -80,6 +83,8 @@ public class ControladorReconhecimento {
                     System.out.println("Erro: " + e.getMessage());
                 }
                 break;
+            case "8":
+                try
             default:
                 System.out.println("Opção inválida.");
         }

@@ -51,7 +51,7 @@ public class RoboResgateAereo extends RoboAereo implements Sensoreavel, Resgatad
         int deltaY = posicaoEvacuacaoY - posicaoY;
 
         mover(deltaX, deltaY, 0, -1);
-        System.out.println(nome + " levou suas vítimas para (" + posicaoEvacuacaoX + ", " + posicaoEvacuacaoY + ")");
+        System.out.println(nome + " levou suas vítimas para (" + posicaoEvacuacaoX + ", " + posicaoEvacuacaoY + ", 0)");
         capacidadeVitimas = 5;
     }
 
@@ -60,7 +60,7 @@ public class RoboResgateAereo extends RoboAereo implements Sensoreavel, Resgatad
         System.out.println(nome + " está realizando uma operação de resgate.");
         // implementar lógica automática se desejar
     }
-
+    @Override
     public void acionarSensores() throws RoboDesligadoException {
         if (!this.estaLigado()) {
             throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
