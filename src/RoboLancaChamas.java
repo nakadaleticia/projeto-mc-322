@@ -65,6 +65,7 @@ public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel, Comun
         if (destinatario == null) {
             throw new ErroComunicacaoException("Destinatário inválido.");
         }
+
         destinatario.receberMensagem("De " + nome + ": " + mensagem);
     }
 
@@ -73,6 +74,7 @@ public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel, Comun
         if (!this.estaLigado()) {
             throw new RoboDesligadoException(nome + " está desligado! Não pode receber mensagens.");
         }
+
         System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
     }
 }

@@ -46,6 +46,7 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
         if (destinatario == null) {
             throw new ErroComunicacaoException("Destinatário inválido.");
         }
+
         destinatario.receberMensagem("De " + nome + ": " + mensagem);
     }
 

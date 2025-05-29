@@ -4,10 +4,11 @@ import java.util.Scanner;
 public class ClasseEscolher {
     ArrayList<Entidade> entidades;
     Ambiente ambiente;
-
-    public ClasseEscolher(Ambiente ambiente) {
+    CentralComunicacao central;
+    public ClasseEscolher(Ambiente ambiente, CentralComunicacao central) {
         this.entidades = ambiente.getEntidades();
         this.ambiente = ambiente;
+        this.central = central;
     }
 
     public void iniciar() {
@@ -48,19 +49,19 @@ public class ClasseEscolher {
             System.out.println("Voce escolheu o " + robo.getNome() + "\n");
             switch (robo) {
                 case RoboLancaChamas roboLanca -> {
-                    ControladorLC controladorLC = new ControladorLC(roboLanca, ambiente);
+                    ControladorLC controladorLC = new ControladorLC(roboLanca, ambiente, central);
                     controladorLC.iniciar();
                 }
                 case RoboReconhecimento roboReconhecimento -> {
-                    ControladorReconhecimento controladorReconhecimento = new ControladorReconhecimento(roboReconhecimento);
+                    ControladorReconhecimento controladorReconhecimento = new ControladorReconhecimento(roboReconhecimento,ambiente, central);
                     controladorReconhecimento.iniciar();
                 }
                 case RoboTanque roboTanque -> {
-                    ControladorTanque controladorTanque = new ControladorTanque(roboTanque, ambiente);
+                    ControladorTanque controladorTanque = new ControladorTanque(roboTanque, ambiente, central);
                     controladorTanque.iniciar();
                 }
                 case RoboResgateAereo roboResgateAereo -> {
-                    ControladorRA controladorRA = new ControladorRA(roboResgateAereo);
+                    ControladorRA controladorRA = new ControladorRA(roboResgateAereo,ambiente, central);
                     controladorRA.iniciar();
                 }
                 default -> {

@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Menu {
     int valor;
     Scanner sc = new Scanner(System.in);
-
+    CentralComunicacao central = new CentralComunicacao();
     public Menu(int valor) {
         this.valor = valor;
     }
@@ -30,7 +30,7 @@ public class Menu {
                 break;
 
             case 3:
-                escolherRobo(ambiente);
+                escolherRobo(ambiente,central);
                 break;
 
             case 4:
@@ -64,13 +64,13 @@ public class Menu {
         }
     }
 
-    private void escolherRobo(Ambiente ambiente) {
-        ClasseEscolher classeE = new ClasseEscolher(ambiente);
+    private void escolherRobo(Ambiente ambiente,CentralComunicacao central) {
+        ClasseEscolher classeE = new ClasseEscolher(ambiente,central);
         classeE.iniciar();
     }
 
     private void excluirRobo(Ambiente ambiente) {
-        ClasseEscolher classeE = new ClasseEscolher(ambiente);
+        ClasseEscolher classeE = new ClasseEscolher(ambiente,central);
         System.out.println("Escolha um para ser excluido");
         classeE.exibe();
         Robo robo = classeE.escolheUm();
@@ -83,7 +83,7 @@ public class Menu {
 
     private void listarMensagens() {
         System.out.println("\n=== Mensagens ===");
-        CentralComunicacao central = new CentralComunicacao(); // isso pode ser adaptado para instância única no seu sistema
+        ; // isso pode ser adaptado para instância única no seu sistema
         central.exibirMensagens();
     }
 }

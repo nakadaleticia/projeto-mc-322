@@ -2,9 +2,14 @@ import java.util.Scanner;
 
 public class ControladorReconhecimento {
     private final RoboReconhecimento robo;
+    private final Ambiente ambiente;
+    private final CentralComunicacao central;
 
-    public ControladorReconhecimento(RoboReconhecimento robo) {
+    public ControladorReconhecimento(RoboReconhecimento robo , Ambiente ambiente, CentralComunicacao central) {
+
         this.robo = robo;
+        this.ambiente = ambiente;
+        this.central = central;
     }
 
     public void iniciar() {
@@ -84,7 +89,35 @@ public class ControladorReconhecimento {
                 }
                 break;
             case "8":
-                try
+                System.out.println("Escreva a mensagem:\n");
+                String mensg = sc.nextLine();
+                ClasseEscolher escolheRobo = new ClasseEscolher(ambiente,central);
+                escolheRobo.exibe();
+                Robo meuRobo = escolheRobo.escolheUm();
+                Comunicavel comunicador = (Comunicavel) meuRobo;
+                try {
+                    robo.enviarMensagem(comunicador,mensg);
+                } catch (RoboDesligadoException e) {
+                    System.out.println("Robo desligado");
+                } catch (ErroComunicacaoException e) {
+                    System.out.println("Erro na comunicação");
+                }
+                central.registrarMensagem(robo.nome,mensg);
+                break;
+            case "9":
+                System.out.println("Escreva a mensagem:\n");
+                String mensg1 = sc.nextLine();
+                try {
+                    robo.receberMensagem(mensg1);
+                } catch (RoboDesligadoException e) {
+                    System.out.println("Robo desligado");
+                }
+                central.registrarMensagem(robo.nome,mensg1);
+                break;
+            case "10":
+                System.out.println("Executando tarefa...\n");
+                robo.executarTarefa();
+                break;
             default:
                 System.out.println("Opção inválida.");
         }

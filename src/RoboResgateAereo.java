@@ -4,7 +4,7 @@ cada robô pode carregar até 5 vítimas.
 cada robô tem um modo emergência, que eleva o robô até sua altitude máxima (evacuação e resgate).
 */
 
-public class RoboResgateAereo extends RoboAereo implements Sensoreavel, Resgatador, Autonomo {
+public class RoboResgateAereo extends RoboAereo implements Comunicavel,Sensoreavel, Resgatador, Autonomo {
     int capacidadeVitimas;
     boolean modoEmergencia;
 
@@ -73,5 +73,23 @@ public class RoboResgateAereo extends RoboAereo implements Sensoreavel, Resgatad
     public void executarTarefa() {
         System.out.println(nome + " executando tarefa automática: iniciando resgate.");
         resgatar();
+    }
+    @Override
+    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não pode enviar mensagem.");
+        }
+        if (destinatario == null) {
+            throw new ErroComunicacaoException("Destinatário inválido.");
+        }
+        destinatario.receberMensagem("De " + nome + ": " + mensagem);
+    }
+
+    @Override
+    public void receberMensagem(String mensagem) throws RoboDesligadoException {
+        if (!this.estaLigado()) {
+            throw new RoboDesligadoException(nome + " está desligado! Não pode receber mensagens.");
+        }
+        System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
     }
 }

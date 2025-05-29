@@ -2,9 +2,12 @@ import java.util.Scanner;
 
 public class ControladorRA {
     private final RoboResgateAereo robo;
-
-    public ControladorRA(RoboResgateAereo robo) {
+    private final Ambiente ambiente;
+    private final CentralComunicacao central;
+    public ControladorRA(RoboResgateAereo robo,Ambiente ambiente,CentralComunicacao central) {
         this.robo = robo;
+        this.ambiente = ambiente;
+        this.central = central;
     }
 
     public void iniciar() {
@@ -27,6 +30,9 @@ public class ControladorRA {
         System.out.println("7 - Subir");
         System.out.println("8 - Descer");
         System.out.println("9 - Usar Sensor(es)");
+        System.out.println("10 - Mandar mensagem");
+        System.out.println("11 - Receber mensagem");
+        System.out.println("12 - Executar tarefa");
     }
 
     private void executarAcao(String opcao) {
@@ -93,6 +99,36 @@ public class ControladorRA {
                 } catch (RoboDesligadoException e) {
                     System.out.println("Erro: " + e.getMessage());
                 }
+                break;
+            case "10":
+                System.out.println("Escreva a mensagem:\n");
+                String mensg = sc.nextLine();
+                ClasseEscolher escolheRobo = new ClasseEscolher(ambiente,central);
+                escolheRobo.exibe();
+                Robo meuRobo = escolheRobo.escolheUm();
+                Comunicavel comunicador = (Comunicavel) meuRobo;
+                try {
+                    robo.enviarMensagem(comunicador,mensg);
+                } catch (RoboDesligadoException e) {
+                    System.out.println("Robo desligado");
+                } catch (ErroComunicacaoException e) {
+                    System.out.println("Erro na comunicação");
+                }
+                central.registrarMensagem(robo.nome,mensg);
+                break;
+            case "11":
+                System.out.println("Escreva a mensagem:\n");
+                String mensg1 = sc.nextLine();
+                try {
+                    robo.receberMensagem(mensg1);
+                } catch (RoboDesligadoException e) {
+                    System.out.println("Robo desligado");
+                }
+                central.registrarMensagem(robo.nome,mensg1);
+                break;
+            case "12":
+                System.out.println("Executando tarefa...\n");
+                robo.executarTarefa();
                 break;
             default:
                 System.out.println("Opção inválida.");
