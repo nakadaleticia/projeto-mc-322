@@ -7,4 +7,4 @@ Ao rodar o código, é possível escolher os robôs pelos índices e todas as fu
 Além disso, também é possível printar o mapa 2D de entidades, listar os robôs, listar as mensagens trocadas, excluir algum Robô e parar a execução  \n
 No menu, não foi colocado nenhuma ação com obstáculos, pois julgamos a função um pouco complexa, então deixamos ela na main principal.\n
 Nosso diagrama de Classes:\n
-![WhatsApp Image 2025-04-28 at 21 26 54](https://github.com/user-attachments/assets/5d504c02-5763-4b76-a71d-ede44080fc04)
+![image](https://github.com/user-attachments/assets/190462d2-81f3-4b8a-96fe-ca960b65c844)
