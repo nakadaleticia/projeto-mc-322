@@ -13,7 +13,8 @@ public class Main {
         RoboLancaChamas chama = new RoboLancaChamas("Chamas", "L", 100, 10, 10, 3, ambiente);
         Robo dummy = new RoboTanque("Dummy", "S", 100, 11, 10, 2, ambiente);
         RoboResgateAereo resgate = new RoboResgateAereo("Resgate", "O", 100, 15, 15, 1, 6, ambiente);
-        RoboReconhecimento recon = new RoboReconhecimento("Recon", "S", 100, 2, 2, 2, 6, ambiente);
+        RoboReconhecimento recon = new RoboReconhecimento("Recon", "S", 100, 0, 20, 1, 6, ambiente);
+
 
         // adicionar robôs no ambiente
         ambiente.adicionarEntidade(recon);

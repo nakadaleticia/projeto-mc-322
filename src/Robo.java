@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Robo implements Entidade {
+public abstract class Robo implements Entidade {
     protected String nome; // modificado para protected
     protected String direcao; // (N, S, L, O)
     protected int vida;
@@ -25,6 +25,9 @@ public class Robo implements Entidade {
         SensorProximidade sensorPadrao = new SensorProximidade(3, ambiente);
         this.adicionarSensor(sensorPadrao);
     }
+    public String getNome(){return nome;}
+
+    public int getVida(){return vida;}
 
     public void adicionarSensor(Sensor sensor) {
         sensores.add(sensor);
@@ -35,6 +38,7 @@ public class Robo implements Entidade {
         return ambiente;
     }
 
+    // usa todos os sensores do robô
     public void usarSensores() {
         for (Sensor s : sensores) {
             s.monitorar(this);
@@ -49,8 +53,9 @@ public class Robo implements Entidade {
 
         if (vida <= 0) {
             System.out.println(nome + " foi destruído!");
+
             if (ambiente != null) {
-                ambiente.removerEntidade(this); // ajuste importante
+                ambiente.removerEntidade(this);
             }
         }
     }
@@ -70,8 +75,13 @@ public class Robo implements Entidade {
         } catch (ColisaoException e) {
             System.out.println(nome + " não pode se mover: " + e.getMessage());
         }
-    }
 
+        //posicaoX = novoX;
+        //posicaoY = novoY;
+        //posicaoZ = novoZ;
+
+        //System.out.println(nome + " se moveu");
+    }
 
     public void exibirPosicao() {
         System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
@@ -101,36 +111,38 @@ public class Robo implements Entidade {
 
     @Override
     public String getDescricao() {
-        return "Robô do tipo " + this.getClass().getSimpleName() + " chamado " + nome;
+        String tipoEspecificoRobo = this.getClass().getSimpleName();
+        // Monta a 'string' de descrição
+        return "Tipo de Robô: " + tipoEspecificoRobo +
+                ", Nome: '" + this.nome +
+                "', Símbolo no Mapa: R'" + //
+                "', Posição: (" + this.posicaoX + "," + this.posicaoY + "," + this.posicaoZ + ")" +
+                ", Vida: " + this.vida +
+                ", Direção: " + this.direcao +
+                ", Estado: " + (ligado ? "ligado,":"desligado,") ;
     }
 
+    ;
+
     @Override
-    public char representacao() {
+    public char getRepresentacao() {
         return 'R';
     }
 
-    // getters auxiliares
-    public String getNome() {
-        return nome;
-    }
+    ;
 
-    public String getDirecao() {
-        return direcao;
-    }
-
-    public int getVida() {
-        return vida;
-    }
-
+    // verifica se o robô está ligado
     public boolean estaLigado() {
         return ligado;
     }
 
+    // liga o robô
     public void ligar() {
         ligado = true;
         System.out.println(nome + " foi ligado.");
     }
 
+    // desliga o robô
     public void desligar() {
         ligado = false;
         System.out.println(nome + " foi desligado.");
@@ -142,4 +154,7 @@ public class Robo implements Entidade {
         this.posicaoY = y;
         this.posicaoZ = z;
     }
+
+    public abstract void executarTarefa();
+
 }

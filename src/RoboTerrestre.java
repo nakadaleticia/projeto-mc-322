@@ -23,4 +23,8 @@ public class RoboTerrestre extends Robo {
         super.mover(deltaX, deltaY, deltaZ, tempo); // aqui ele trata limites e colisão!
     }
 
+    @Override
+    public void executarTarefa() {
+
+    }
 }

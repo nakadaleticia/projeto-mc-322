@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+//revisar o deescrição da entidade, pois agora está bem maior
 public class Ambiente {
     private int largura, altura, altitude; // dimensões do ambiente
     private ArrayList<Entidade> entidades; // lista de entidades (robôs e obstáculos)
@@ -87,6 +87,10 @@ public class Ambiente {
                 System.out.print(simbolo + " ");
             }
             System.out.println();
+
         }
+
+
     }
+
 }

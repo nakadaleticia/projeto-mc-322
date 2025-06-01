@@ -1,5 +1,13 @@
-public class SensorProximidade extends Sensor {
+/*
+sensorProximidade: encontra robos e obstaculos ativos dentro do raio de alcance.
+exibe o nome, a distancia e a posicao dos robos detectados.
+exibe o tipo, altura e se o obstaculo bloqueia passagem.
+pode ser utilizado por qualquer tipo de robo.
+*/
 
+import java.util.ArrayList;
+
+public class SensorProximidade extends Sensor {
     public SensorProximidade(int raio, Ambiente ambiente) {
         super(raio, ambiente);
     }
