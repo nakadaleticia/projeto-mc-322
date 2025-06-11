@@ -1,3 +1,11 @@
+import AmbienteP.Ambiente;
+import ObstaculoP.Obstaculo;
+import Robos.RoboLancaChamas;
+import Robos.RoboReconhecimento;
+import Robos.RoboResgateAereo;
+import Robos.RoboTanque;
+import enums.TipoObstaculo;
+
 public class TesteCompletoLab4 {
 
     public static void main(String[] args) {
@@ -5,11 +13,11 @@ public class TesteCompletoLab4 {
         // Criar ambiente
         System.out.println("Testando criação do ambiente...");
         Ambiente ambiente = new Ambiente(10, 10, 5, null);
-        System.out.println("Esperado: Ambiente criado 10x10x5");
+        System.out.println("Esperado: Ambiente.Ambiente criado 10x10x5");
 
         // Criar robôs
         System.out.println("\nTestando criação de robôs...");
-        // RoboTanque(nome, direcao, vida, x, y, velocidadeMaxima, ambiente)
+        // Robos.RoboTanque(nome, direcao, vida, x, y, velocidadeMaxima, ambiente)
         RoboTanque tanque = new RoboTanque("Tanque", "N", 100, 1, 1, 2, ambiente);
         RoboLancaChamas chama = new RoboLancaChamas("Chamas", "L", 100, 2, 2, 3, ambiente);
         RoboResgateAereo resgate = new RoboResgateAereo("Resgate", "O", 100, 3, 3, 1, 5, ambiente);

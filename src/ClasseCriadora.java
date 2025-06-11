@@ -2,74 +2,74 @@
 
 public class ClasseCriadora {
     Scanner sc = new Scanner(System.in);
-    public void criarRoboLC(Ambiente ambiente){
+    public void criarRoboLC(Ambiente.Ambiente ambiente){
 
-        System.out.println("Qual o nome do Robo?");
+        System.out.println("Qual o nome do Robos.Robo?");
         String nome = sc.next();
-        System.out.println("Qual a direção do Robo? (N, S, L, O)");
+        System.out.println("Qual a direção do Robos.Robo? (N, S, L, O)");
         String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
+        System.out.println("Qual a vida do Robos.Robo?");
         int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
+        System.out.println("Qual a posicao x do Robos.Robo?");
         int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
+        System.out.println("Qual a posicao y do Robos.Robo?");
         int y = sc.nextInt();
-        System.out.println("Qual a velocidade máxima do Robo?");
+        System.out.println("Qual a velocidade máxima do Robos.Robo?");
         int velocidadeMaxima = sc.nextInt();
-        RoboLancaChamas roboLancaChamas = new RoboLancaChamas(nome,direcao,vida,x,y,velocidadeMaxima,ambiente);
+        Robos.RoboLancaChamas roboLancaChamas = new Robos.RoboLancaChamas(nome,direcao,vida,x,y,velocidadeMaxima,ambiente);
         ambiente.adicionarRobo(roboLancaChamas);
 
 
     }
-    public void criarRoboRec(Ambiente ambiente) {
-        System.out.println("Qual o nome do Robo?");
+    public void criarRoboRec(Ambiente.Ambiente ambiente) {
+        System.out.println("Qual o nome do Robos.Robo?");
         String nome = sc.next();
-        System.out.println("Qual a direção do Robo? (N, S, L, O)");
+        System.out.println("Qual a direção do Robos.Robo? (N, S, L, O)");
         String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
+        System.out.println("Qual a vida do Robos.Robo?");
         int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
+        System.out.println("Qual a posicao x do Robos.Robo?");
         int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
+        System.out.println("Qual a posicao y do Robos.Robo?");
         int y = sc.nextInt();
-        System.out.println("Qual a altitude do Robo?");
+        System.out.println("Qual a altitude do Robos.Robo?");
         int altitude = sc.nextInt();
-        System.out.println("Qual a altitude maxima do Robo?");
+        System.out.println("Qual a altitude maxima do Robos.Robo?");
         int altitudeMaxima = sc.nextInt();
-        RoboReconhecimento roboReconhecimento = new RoboReconhecimento(nome, direcao, vida, x, y, altitude, altitudeMaxima, ambiente);
+        Robos.RoboReconhecimento roboReconhecimento = new Robos.RoboReconhecimento(nome, direcao, vida, x, y, altitude, altitudeMaxima, ambiente);
         ambiente.adicionarRobo(roboReconhecimento);
     }
-    public void criarRoboTanque(Ambiente ambiente){
-        System.out.println("Qual o nome do Robo?");
+    public void criarRoboTanque(Ambiente.Ambiente ambiente){
+        System.out.println("Qual o nome do Robos.Robo?");
         String nome = sc.next();
-        System.out.println("Qual a direção do Robo? (N, S, L, O)");
+        System.out.println("Qual a direção do Robos.Robo? (N, S, L, O)");
         String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
+        System.out.println("Qual a vida do Robos.Robo?");
         int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
+        System.out.println("Qual a posicao x do Robos.Robo?");
         int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
+        System.out.println("Qual a posicao y do Robos.Robo?");
         int y = sc.nextInt();
-        System.out.println("Qual a velocidade máxima do Robo?");
+        System.out.println("Qual a velocidade máxima do Robos.Robo?");
         int velocidadeMaxima = sc.nextInt();
-        RoboTanque robotanque = new RoboTanque(nome,direcao,vida,x,y,velocidadeMaxima,ambiente);
+        Robos.RoboTanque robotanque = new Robos.RoboTanque(nome,direcao,vida,x,y,velocidadeMaxima,ambiente);
     }
-    public void criarRoboRA(Ambiente ambiente){
-        System.out.println("Qual o nome do Robo?");
+    public void criarRoboRA(Ambiente.Ambiente ambiente){
+        System.out.println("Qual o nome do Robos.Robo?");
         String nome = sc.next();
-        System.out.println("Qual a direção do Robo? (N, S, L, O)");
+        System.out.println("Qual a direção do Robos.Robo? (N, S, L, O)");
         String direcao = sc.next();
-        System.out.println("Qual a vida do Robo?");
+        System.out.println("Qual a vida do Robos.Robo?");
         int vida = sc.nextInt();
-        System.out.println("Qual a posicao x do Robo?");
+        System.out.println("Qual a posicao x do Robos.Robo?");
         int x = sc.nextInt();
-        System.out.println("Qual a posicao y do Robo?");
+        System.out.println("Qual a posicao y do Robos.Robo?");
         int y = sc.nextInt();
-        System.out.println("Qual a altitude do Robo?");
+        System.out.println("Qual a altitude do Robos.Robo?");
         int altitude = sc.nextInt();
-        System.out.println("Qual a altitude maxima do Robo?");
+        System.out.println("Qual a altitude maxima do Robos.Robo?");
         int altitudeMaxima = sc.nextInt();
-        RoboResgateAereo RoboRA = new RoboResgateAereo(nome,direcao,vida,x,y,altitude,altitudeMaxima,ambiente);
+        Robos.RoboResgateAereo RoboRA = new Robos.RoboResgateAereo(nome,direcao,vida,x,y,altitude,altitudeMaxima,ambiente);
         ambiente.adicionarRobo(RoboRA);
     }
 }*/
