@@ -8,14 +8,22 @@ import Interfaces.*;
 import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 
-public class RoboResgateAereo extends RoboAereo implements Comunicavel, Sensoreavel, Resgatador, Autonomo {
+public class RoboResgateAereo extends Robo implements Comunicavel, Sensoreavel, Resgatador, Autonomo {
     int capacidadeVitimas;
     boolean modoEmergencia;
+    public int altitudeMaxima;
+    private ModuloComunicacao modulo;
+    private GerenciadorSensor gerenciadorSensor;
+    private ControleMovimentoAereo controleMovimentoAereo;
 
-    public RoboResgateAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, Ambiente ambiente) {
-        super(nome, direcao, vida, posicaoX, posicaoY, altitude, altitudeMaxima, ambiente);
+    public RoboResgateAereo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, Ambiente ambiente, ModuloComunicacao modulo, ControleMovimentoAereo controleMovimentoAereo, GerenciadorSensor gerenciadorSensor) {
+        super(nome, direcao, vida, posicaoX, posicaoY, altitude, ambiente);
         this.capacidadeVitimas = 5;
         this.modoEmergencia = false;
+        this.modulo = modulo;
+        this.gerenciadorSensor = gerenciadorSensor;
+        this.controleMovimentoAereo = controleMovimentoAereo;
+        this.altitudeMaxima = altitudeMaxima;
     }
 
     public void ativarModoEmergencia() {
@@ -24,7 +32,7 @@ public class RoboResgateAereo extends RoboAereo implements Comunicavel, Sensorea
             int alturaParaSubir = altitudeMaxima - posicaoZ;
             if (alturaParaSubir > 0) {
                 System.out.println("modo emergência ativado. " + nome + " está subindo...");
-                subir(alturaParaSubir);
+                subir(alturaParaSubir, this, ambiente);
             } else {
                 System.out.println(nome + " já está na altitude máxima.");
             }
@@ -39,7 +47,7 @@ public class RoboResgateAereo extends RoboAereo implements Comunicavel, Sensorea
 
         if (modoEmergencia) {
             if (capacidadeVitimas > 0) {
-                mover(deltaX, deltaY, 0, -1);
+                mover(deltaX, deltaY, 0, -1, ambiente, this);
                 System.out.println(nome + " resgatou uma vítima");
                 capacidadeVitimas--;
             } else {
@@ -54,7 +62,7 @@ public class RoboResgateAereo extends RoboAereo implements Comunicavel, Sensorea
         int deltaX = posicaoEvacuacaoX - posicaoX;
         int deltaY = posicaoEvacuacaoY - posicaoY;
 
-        mover(deltaX, deltaY, 0, -1);
+        mover(deltaX, deltaY, 0, -1, ambiente, this);
         System.out.println(nome + " levou suas vítimas para (" + posicaoEvacuacaoX + ", " + posicaoEvacuacaoY + ", 0)");
         capacidadeVitimas = 5;
     }
@@ -66,10 +74,7 @@ public class RoboResgateAereo extends RoboAereo implements Comunicavel, Sensorea
     }
     @Override
     public void acionarSensores() throws RoboDesligadoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
-        }
-        this.usarSensores();
+        gerenciadorSensor.usarSensores(this);
     }
 
     // Implementação da interface Interfaces.Autonomo
@@ -79,14 +84,9 @@ public class RoboResgateAereo extends RoboAereo implements Comunicavel, Sensorea
         resgatar();
     }
     @Override
-    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não pode enviar mensagem.");
-        }
-        if (destinatario == null) {
-            throw new ErroComunicacaoException("Destinatário inválido.");
-        }
-        destinatario.receberMensagem("De " + nome + ": " + mensagem);
+    public void enviarMensagemPara(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        modulo.enviarMensagem(destinatario, mensagem);
+
     }
 
     @Override
@@ -95,5 +95,14 @@ public class RoboResgateAereo extends RoboAereo implements Comunicavel, Sensorea
             throw new RoboDesligadoException(nome + " está desligado! Não pode receber mensagens.");
         }
         System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
+    }
+    public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
+        controleMovimentoAereo.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
+    }
+    public void subir(int metros, Robo r, Ambiente ambiente){
+        controleMovimentoAereo.subir(metros, r, ambiente);
+    }
+    public void descer(int metros, Robo r, Ambiente ambiente){
+        controleMovimentoAereo.descer(metros, r, ambiente);
     }
 }

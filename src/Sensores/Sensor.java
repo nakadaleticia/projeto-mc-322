@@ -7,7 +7,7 @@ o sensor 'enxerga' o ambiente para o robo.
 import AmbienteP.Ambiente;
 import Robos.Robo;
 
-public class Sensor {
+public abstract class Sensor {
     public Ambiente ambiente;
     public final int raio; // raio de alcance do sensor
 
@@ -16,8 +16,12 @@ public class Sensor {
         this.ambiente = ambiente;
     }
 
-    /* metodo depende do tipo de sensor */
-    public void monitorar(Robo solicitante) {
-        return;
+    protected int calcularDistancia(int x1, int y1, int x2, int y2) {
+        int distX = x1 - x2;
+        int distY = y1 - y2;
+        return (int) Math.sqrt(distX * distX + distY * distY);
     }
+
+    /* metodo depende do tipo de sensor */
+    public abstract void monitorar(Robo solicitante);
 }

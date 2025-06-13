@@ -1,4 +1,4 @@
-package Controlador;
+package ControladorMenu;
 
 import AmbienteP.Ambiente;
 import Comunicacao.CentralComunicacao;

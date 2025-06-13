@@ -16,11 +16,7 @@ public class SensorEletromagnetico extends Sensor {
         this.robosDetectados = new ArrayList<>();
     }
 
-    private int calcularDistancia(int x1, int y1, int x2, int y2) {
-        int distX = x1 - x2;
-        int distY = y1 - y2;
-        return (int) Math.sqrt(distX * distX + distY * distY);
-    }
+
 
     @Override
     public void monitorar(Robo solicitante) {

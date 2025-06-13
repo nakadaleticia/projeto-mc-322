@@ -15,11 +15,7 @@ public class SensorProximidade extends Sensor {
         super(raio, ambiente);
     }
 
-    private int calcularDistancia(int x1, int y1, int x2, int y2) {
-        int dx = x1 - x2;
-        int dy = y1 - y2;
-        return (int) Math.sqrt(dx * dx + dy * dy);
-    }
+
 
     @Override
     public void monitorar(Robo solicitante) {

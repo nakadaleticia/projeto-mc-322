@@ -11,12 +11,20 @@ import Interfaces.*;
 import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 
-public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel, Comunicavel, Atacante, Autonomo {
+public class RoboLancaChamas extends Robo implements Sensoreavel, Comunicavel, Atacante, Autonomo {
     private int numCombustivel;
+    int velocidadeMaxima;
+    private final ModuloComunicacao modulo;
+    private GerenciadorSensor gerenciadorSensor;
+    private ControleMovimentoTerrestre controleMovimentoTerrestre;
 
-    public RoboLancaChamas(String nome, String direcao, int vida, int posicaoX, int posicaoY, int velocidadeMaxima, Ambiente ambiente) {
-        super(nome, direcao, vida, posicaoX, posicaoY, velocidadeMaxima, ambiente);
+    public RoboLancaChamas(String nome, String direcao, int vida, int posicaoX, int posicaoY, int velocidadeMaxima, Ambiente ambiente, ModuloComunicacao modulo, ControleMovimentoTerrestre controleMovimentoTerrestre, GerenciadorSensor gerenciadorSensor) {
+        super(nome, direcao, vida, posicaoX, posicaoY,0, ambiente);
         this.numCombustivel = 100;
+        this.modulo = modulo;
+        this.gerenciadorSensor = gerenciadorSensor;
+        this.controleMovimentoTerrestre = controleMovimentoTerrestre;
+        this.velocidadeMaxima = velocidadeMaxima;
     }
 
     public void recarregarCombustivel() {
@@ -49,10 +57,7 @@ public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel, Comun
     }
     @Override
     public void acionarSensores() throws RoboDesligadoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
-        }
-        this.usarSensores();
+        gerenciadorSensor.usarSensores(this);
     }
 
     // Implementação da interface Interfaces.Autonomo
@@ -63,15 +68,9 @@ public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel, Comun
     }
 
     @Override
-    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não pode enviar mensagem.");
-        }
-        if (destinatario == null) {
-            throw new ErroComunicacaoException("Destinatário inválido.");
-        }
+    public void enviarMensagemPara(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        modulo.enviarMensagem(destinatario, mensagem);
 
-        destinatario.receberMensagem("De " + nome + ": " + mensagem);
     }
 
     @Override
@@ -81,5 +80,8 @@ public class RoboLancaChamas extends RoboTerrestre implements Sensoreavel, Comun
         }
 
         System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
+    }
+    public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
+        controleMovimentoTerrestre.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
     }
 }

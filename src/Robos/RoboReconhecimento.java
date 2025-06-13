@@ -8,21 +8,28 @@ import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 import java.util.ArrayList;
 
-public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comunicavel, Mapeador, Autonomo {
+public class RoboReconhecimento extends Robo implements Sensoreavel, Comunicavel, Mapeador, Autonomo {
     boolean modoReconhecimento;
     ArrayList<Robo> mapaReconhecimento;
-
-    public RoboReconhecimento(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, Ambiente ambiente) {
-        super(nome, direcao, vida, posicaoX, posicaoY, altitude, altitudeMaxima, ambiente);
+    public int altitudeMaxima;
+    private ModuloComunicacao modulo;
+    private GerenciadorSensor gerenciadorSensor;
+    private ControleMovimentoAereo controleMovimentoAereo;
+    public RoboReconhecimento(String nome, String direcao, int vida, int posicaoX, int posicaoY, int altitude, int altitudeMaxima, Ambiente ambiente, ModuloComunicacao modulo, ControleMovimentoAereo controleMovimentoAereo, GerenciadorSensor gerenciadorSensor) {
+        super(nome, direcao, vida, posicaoX, posicaoY, altitude, ambiente);
         this.modoReconhecimento = false;
         this.mapaReconhecimento = new ArrayList<>();
+        this.modulo = modulo;
+        this.gerenciadorSensor = gerenciadorSensor;
+        this.controleMovimentoAereo = controleMovimentoAereo;
+        this.altitudeMaxima = altitudeMaxima;
     }
 
     public void ativarModoReconhecimento() {
         if (!modoReconhecimento) {
             modoReconhecimento = true;
             System.out.println("modo reconhecimento ativado. " + nome + " está subindo...");
-            subir(altitudeMaxima - posicaoZ);
+            subir(altitudeMaxima - posicaoZ, this, ambiente);
         } else {
             System.out.println(nome + " já está em modo reconhecimento");
         }
@@ -35,22 +42,13 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
     }
     @Override
     public void acionarSensores() throws RoboDesligadoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
-        }
-        this.usarSensores();
+        gerenciadorSensor.usarSensores(this);
     }
 
     @Override
-    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não pode enviar mensagem.");
-        }
-        if (destinatario == null) {
-            throw new ErroComunicacaoException("Destinatário inválido.");
-        }
+    public void enviarMensagemPara(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        modulo.enviarMensagem(destinatario, mensagem);
 
-        destinatario.receberMensagem("De " + nome + ": " + mensagem);
     }
 
     @Override
@@ -66,5 +64,14 @@ public class RoboReconhecimento extends RoboAereo implements Sensoreavel, Comuni
     public void executarTarefa() {
         System.out.println(nome + " executando tarefa automática: mapeando o ambiente.");
         mapearAmbiente();
+    }
+    public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
+        controleMovimentoAereo.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
+    }
+    public void subir(int metros, Robo r, Ambiente ambiente){
+        controleMovimentoAereo.subir(metros, r, ambiente);
+    }
+    public void descer(int metros, Robo r, Ambiente ambiente){
+        controleMovimentoAereo.descer(metros, r, ambiente);
     }
 }

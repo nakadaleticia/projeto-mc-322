@@ -2,7 +2,7 @@ package MenuP;
 
 import AmbienteP.Ambiente;
 import Comunicacao.CentralComunicacao;
-import Controlador.ClasseEscolher;
+import ControladorMenu.ClasseEscolher;
 import Interfaces.Entidade;
 import Robos.Robo;
 
