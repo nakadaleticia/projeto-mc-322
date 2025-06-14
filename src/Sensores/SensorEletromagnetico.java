@@ -5,14 +5,15 @@ sensorEletromagnetico: encontra robôs ativos dentro do raio de alcance.
 import AmbienteP.Ambiente;
 import Interfaces.Entidade;
 import Robos.Robo;
+import Robos.Logger;
 
 import java.util.ArrayList;
 
 public class SensorEletromagnetico extends Sensor {
     private ArrayList<Robo> robosDetectados;
 
-    public SensorEletromagnetico(int raio, Ambiente ambiente) {
-        super(raio, ambiente);
+    public SensorEletromagnetico(int raio, Ambiente ambiente, Logger logger) {
+        super(raio, ambiente, logger);
         this.robosDetectados = new ArrayList<>();
     }
 
@@ -29,6 +30,8 @@ public class SensorEletromagnetico extends Sensor {
                 if (distancia <= raio) {
                     robosDetectados.add(robo);
                     System.out.println("- Robô detectado: " + robo.getNome() + " a " + distancia + " unidades.");
+                    logger.registrar("DETECÇÃO: "+ robo.getNome()+ " detectado com sucesso pelo Sensor Eletromagnetico!");
+
                 }
             }
         }

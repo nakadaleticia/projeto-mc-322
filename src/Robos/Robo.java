@@ -33,8 +33,8 @@ public abstract class Robo implements Entidade {
         this.sensores = new ArrayList<>(); // inicializa sensores
 
         // adiciona sensor de proximidade padrão
-        SensorProximidade sensorPadrao = new SensorProximidade(3, ambiente);
-        this.adicionarSensor(sensorPadrao);
+        //SensorProximidade sensorPadrao = new SensorProximidade(3, ambiente);
+        //this.adicionarSensor(sensorPadrao);
     }
     public String getNome(){return nome;}
 

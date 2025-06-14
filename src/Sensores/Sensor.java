@@ -5,15 +5,18 @@ o sensor 'enxerga' o ambiente para o robo.
  */
 
 import AmbienteP.Ambiente;
+import Robos.Logger;
 import Robos.Robo;
 
 public abstract class Sensor {
     public Ambiente ambiente;
     public final int raio; // raio de alcance do sensor
+    Logger logger;
 
-    public Sensor(int raio, Ambiente ambiente) {
+    public Sensor(int raio, Ambiente ambiente, Logger logger) {
         this.raio = raio;
         this.ambiente = ambiente;
+        this.logger = logger;
     }
 
     protected int calcularDistancia(int x1, int y1, int x2, int y2) {

@@ -5,7 +5,10 @@ import Exception.ForaDosLimitesException;
 import Exception.ColisaoException;
 
 public class ControleMovimentoAereo implements IControladorMovimento {
-    //public int altitudeMaxima;
+    public Logger logger;
+    public ControleMovimentoAereo(Logger logger) {
+        this.logger = logger;
+    }
     @Override
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r) {
         int novoX = r.getX() + deltaX;
@@ -15,6 +18,7 @@ public class ControleMovimentoAereo implements IControladorMovimento {
             ambiente.moverEntidade(r, novoX, novoY, novoZ);
             r.setPosicao(novoX, novoY, novoZ);
             System.out.println(r.nome + " se moveu para (" + novoX + ", " + novoY + ", " + novoZ + ")");
+            logger.registrar("MOVIMENTO: "+ r.nome+ " moveu para (" + novoX + ", " + novoY + ", " + novoZ + ")");
         } catch (ForaDosLimitesException e) {
             System.out.println(r.nome + " não pode se mover: " + e.getMessage());
         } catch (ColisaoException e) {

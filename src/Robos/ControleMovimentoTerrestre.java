@@ -7,9 +7,10 @@ import Exception.ColisaoException;
 
 public class ControleMovimentoTerrestre implements IControladorMovimento {
     protected int velocidadeMaxima;
-
-    public ControleMovimentoTerrestre(int velocidadeMaxima) {
+    public Logger logger;
+    public ControleMovimentoTerrestre(int velocidadeMaxima, Logger logger) {
         this.velocidadeMaxima = velocidadeMaxima;
+        this.logger = logger;
     }
 
     @Override
@@ -26,6 +27,7 @@ public class ControleMovimentoTerrestre implements IControladorMovimento {
             ambiente.moverEntidade(r, novoX, novoY, novoZ);
             r.setPosicao(novoX, novoY, novoZ);
             System.out.println(r.nome + " se moveu para (" + novoX + ", " + novoY + ", " + novoZ + ")");
+            logger.registrar("MOVIMENTO: "+ r.nome+ " moveu para (" + novoX + ", " + novoY + ", " + novoZ + ")");
         } catch (ForaDosLimitesException e) {
             System.out.println(r.nome + " não pode se mover: " + e.getMessage());
         } catch (ColisaoException e) {
