@@ -8,7 +8,7 @@ import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 import java.util.ArrayList;
 
-public class RoboReconhecimento extends Robo implements Sensoreavel, Comunicavel, Mapeador, Autonomo {
+public class RoboReconhecimento extends AgenteInteligente implements Sensoreavel, Comunicavel, Mapeador, Autonomo {
     boolean modoReconhecimento;
     ArrayList<Robo> mapaReconhecimento;
     public int altitudeMaxima;
@@ -65,6 +65,10 @@ public class RoboReconhecimento extends Robo implements Sensoreavel, Comunicavel
         System.out.println(nome + " executando tarefa automática: mapeando o ambiente.");
         mapearAmbiente();
     }
+
+    @Override
+    public void executarMissao(Ambiente ambiente){}
+    @Override
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
         controleMovimentoAereo.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
     }

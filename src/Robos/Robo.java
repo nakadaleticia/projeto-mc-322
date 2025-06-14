@@ -136,6 +136,8 @@ public abstract class Robo implements Entidade {
         return 'R';
     }
 
+    public abstract void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r);
+
     ;
 
     // verifica se o robô está ligado

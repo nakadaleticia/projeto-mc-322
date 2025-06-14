@@ -8,7 +8,7 @@ import Interfaces.*;
 import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 
-public class RoboResgateAereo extends Robo implements Comunicavel, Sensoreavel, Resgatador, Autonomo {
+public class RoboResgateAereo extends AgenteInteligente implements Comunicavel, Sensoreavel, Resgatador, Autonomo {
     int capacidadeVitimas;
     boolean modoEmergencia;
     public int altitudeMaxima;
@@ -96,6 +96,9 @@ public class RoboResgateAereo extends Robo implements Comunicavel, Sensoreavel, 
         }
         System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
     }
+    @Override
+    public void executarMissao(Ambiente ambiente){}
+    @Override
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
         controleMovimentoAereo.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
     }

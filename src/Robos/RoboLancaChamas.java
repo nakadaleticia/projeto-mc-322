@@ -11,7 +11,7 @@ import Interfaces.*;
 import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 
-public class RoboLancaChamas extends Robo implements Sensoreavel, Comunicavel, Atacante, Autonomo {
+public class RoboLancaChamas extends AgenteInteligente implements Sensoreavel, Comunicavel, Atacante, Autonomo {
     private int numCombustivel;
     int velocidadeMaxima;
     private final ModuloComunicacao modulo;
@@ -81,6 +81,9 @@ public class RoboLancaChamas extends Robo implements Sensoreavel, Comunicavel, A
 
         System.out.println("[" + nome + "] recebeu mensagem: " + mensagem);
     }
+    @Override
+    public void executarMissao(Ambiente ambiente){}
+    @Override
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
         controleMovimentoTerrestre.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
     }

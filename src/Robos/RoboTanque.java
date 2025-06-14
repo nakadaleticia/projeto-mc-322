@@ -12,7 +12,7 @@ import Interfaces.*;
 import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 
-public class RoboTanque extends Robo implements Sensoreavel, Comunicavel, Atacante, Autonomo {
+public class RoboTanque extends AgenteInteligente implements Sensoreavel, Comunicavel, Atacante, Autonomo {
     private int numMissil, blindagem;
     boolean modoDefesa;
     int velocidadeMaxima;
@@ -111,6 +111,9 @@ public class RoboTanque extends Robo implements Sensoreavel, Comunicavel, Atacan
         System.out.println(nome + " executando tarefa automática: atacando alvo padrão.");
         atacar(this);
     }
+    @Override
+    public void executarMissao(Ambiente ambiente){}
+    @Override
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
         controleMovimentoTerrestre.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
     }
