@@ -7,12 +7,15 @@ import Exception.ErroComunicacaoException;
 
 public class ModuloComunicacao {
     private final CentralComunicacao central;
-    private final Robo roboDono;
+    private Robo roboDono;
 
     public ModuloComunicacao(CentralComunicacao central, Robo roboDono) {
         this.central = central;
         this.roboDono = roboDono;
 
+    }
+    public void setRobo(Robo robo){
+        this.roboDono = robo;
     }
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
         if (!roboDono.estaLigado()) {

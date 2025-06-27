@@ -42,22 +42,25 @@ public class ControladorRA {
         System.out.println("10 - Mandar mensagem");
         System.out.println("11 - Receber mensagem");
         System.out.println("12 - Executar tarefa");
+        System.out.println("13 - Definir missão");
+        System.out.println("14 - Executar missão");
+        System.out.println("15 - Abortar missão");
     }
 
     private void executarAcao(String opcao) {
         Scanner sc = new Scanner(System.in);
         switch (opcao) {
             case "w":
-                robo.mover(0, 1, 0, 1);
+                robo.mover(0, 1, 0, 1, ambiente, robo);
                 break;
             case "a":
-                robo.mover(-1, 0, 0, 1);
+                robo.mover(-1, 0, 0, 1, ambiente, robo);
                 break;
             case "s":
-                robo.mover(0, -1, 0, 1);
+                robo.mover(0, -1, 0, 1, ambiente, robo);
                 break;
             case "d":
-                robo.mover(1, 0, 0, -1);
+                robo.mover(1, 0, 0, -1, ambiente, robo);
                 break;
             case "0":
                 break;
@@ -72,7 +75,7 @@ public class ControladorRA {
                 int y = sc.nextInt();
                 int z = sc.nextInt();
                 int tempo = sc.nextInt();
-                robo.mover(x, y, z, tempo);
+                robo.mover(x, y, z, tempo, ambiente, robo);
                 break;
             case "3":
                 robo.exibirPosicao();
@@ -95,12 +98,12 @@ public class ControladorRA {
             case "7":
                 System.out.println("Vai subir quanto?");
                 int subida = sc.nextInt();
-                robo.subir(subida);
+                robo.subir(subida, robo, ambiente);
                 break;
             case "8":
                 System.out.println("Vai descer quanto?");
                 int desc = sc.nextInt();
-                robo.descer(desc);
+                robo.descer(desc, robo, ambiente);
                 break;
             case "9":
                 try {
@@ -117,7 +120,7 @@ public class ControladorRA {
                 Robo meuRobo = escolheRobo.escolheUm();
                 Comunicavel comunicador = (Comunicavel) meuRobo;
                 try {
-                    robo.enviarMensagem(comunicador,mensg);
+                    robo.enviarMensagemPara(comunicador,mensg);
                 } catch (RoboDesligadoException e) {
                     System.out.println("Robos.Robo desligado");
                 } catch (ErroComunicacaoException e) {

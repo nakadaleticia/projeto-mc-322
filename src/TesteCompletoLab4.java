@@ -1,4 +1,4 @@
-import AmbienteP.Ambiente;
+/*import AmbienteP.Ambiente;
 import ObstaculoP.Obstaculo;
 import Robos.RoboLancaChamas;
 import Robos.RoboReconhecimento;
@@ -131,4 +131,4 @@ public class TesteCompletoLab4 {
 
         System.out.println("\n=== Fim dos testes ===");
     }
-}
+}*/

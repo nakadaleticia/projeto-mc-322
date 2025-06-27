@@ -47,16 +47,16 @@ public class ControladorTanque {
         Scanner sc = new Scanner(System.in);
         switch (opcao) {
             case "w":
-                robo.mover(0, 1, 0, 1);
+                robo.mover(0, 1, 0, 1, ambiente, robo);
                 break;
             case "a":
-                robo.mover(-1, 0, 0, 1);
+                robo.mover(-1, 0, 0, 1, ambiente, robo);
                 break;
             case "s":
-                robo.mover(0, -1, 0, 1);
+                robo.mover(0, -1, 0, 1, ambiente, robo);
                 break;
             case "d":
-                robo.mover(1, 0, 0, -1);
+                robo.mover(1, 0, 0, -1, ambiente, robo);
                 break;
             case "0":
                 break;
@@ -70,7 +70,7 @@ public class ControladorTanque {
                 int x = sc.nextInt();
                 int y = sc.nextInt();
                 int tempo = sc.nextInt();
-                robo.mover(x, y, 0, tempo);
+                robo.mover(x, y, 0, tempo, ambiente, robo);
                 break;
             case "3":
                 robo.exibirPosicao();
@@ -107,7 +107,7 @@ public class ControladorTanque {
                 Robo meuRobo = escolheRobo.escolheUm();
                 Comunicavel comunicador = (Comunicavel) meuRobo;
                 try {
-                    robo.enviarMensagem(comunicador,mensg);
+                    robo.enviarMensagemPara(comunicador,mensg);
                 } catch (RoboDesligadoException e) {
                     System.out.println("Robos.Robo desligado");
                 } catch (ErroComunicacaoException e) {

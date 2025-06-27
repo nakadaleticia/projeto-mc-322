@@ -25,6 +25,7 @@ public class RoboLancaChamas extends AgenteInteligente implements Sensoreavel, C
         this.gerenciadorSensor = gerenciadorSensor;
         this.controleMovimentoTerrestre = controleMovimentoTerrestre;
         this.velocidadeMaxima = velocidadeMaxima;
+
     }
 
     public void recarregarCombustivel() {
