@@ -7,7 +7,13 @@ import Robos.Robo;
 import Robos.RoboTanque;
 import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
+import missaoP.MissaoBuscarPonto;
+import missaoP.MissaoExplorar;
+import missaoP.MissaoMonitorar;
+import missaoP.MissaoPatrulhar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ControladorTanque {
@@ -25,6 +31,60 @@ public class ControladorTanque {
         Scanner teclado = new Scanner(System.in);
         String opcao = teclado.nextLine();
         executarAcao(opcao);
+    }
+    private void escolherMissao(){
+        Scanner scanner = new Scanner(System.in);
+        String opcao = scanner.nextLine();
+        System.out.println("--ESCOLHA UMA MISSÃO PARA O ROBO--");
+        switch(opcao){
+            case "1":
+                MissaoExplorar m = new MissaoExplorar();
+                robo.definirMissao(m);
+                System.out.println("Missão definida!");
+                break;
+            case "2":
+                List<int[]> pontosPatrulha = new ArrayList<int[]>() ;
+                System.out.println("Quantos pontos o Robo vai patrulhar?");
+                int num = scanner.nextInt();
+                System.out.println("Digite os pontos que o robo vai ficar patrulhando");
+                for (int i = 0; i < num; i++) {
+                    int[] ponto = new int[2];
+
+                    System.out.print("Digite a coordenada X: ");
+                    ponto[0] = scanner.nextInt();
+
+
+                    System.out.print("Digite a coordenada Y: ");
+                    ponto[1] = scanner.nextInt();
+
+
+                    System.out.println("Ponto lido: (" + ponto[0] + ", " + ponto[1] + ")");
+                    pontosPatrulha.add(ponto);
+                }
+
+                MissaoPatrulhar m1 = new MissaoPatrulhar(pontosPatrulha);
+                robo.definirMissao(m1);
+                System.out.println("Missão definida!");
+                break;
+            case "3":
+                MissaoMonitorar m2 = new MissaoMonitorar();
+                robo.definirMissao(m2);
+                System.out.println("Missão Definida!");
+                break;
+            case "4":
+                System.out.print("Digite a coordenada X: ");
+                int x = scanner.nextInt();
+
+
+                System.out.print("Digite a coordenada Y: ");
+                int y = scanner.nextInt();
+
+                MissaoBuscarPonto m3 = new MissaoBuscarPonto(x,y);
+                robo.definirMissao(m3);
+                System.out.println("Missão definida!");
+                break;
+
+        }
     }
 
     public void mostrar() {
