@@ -19,7 +19,7 @@ public abstract class Robo implements Entidade {
     protected boolean ligado = true;
 
     protected ArrayList<Sensor> sensores; // sensores do robo
-    private final Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
+    protected final Ambiente ambiente; // usado apenas para mover e remoção (apenas por agora)
 
     public Robo(String nome, String direcao, int vida, int posicaoX, int posicaoY, int posicaoZ, Ambiente ambiente) {
         this.nome = nome;
@@ -33,8 +33,8 @@ public abstract class Robo implements Entidade {
         this.sensores = new ArrayList<>(); // inicializa sensores
 
         // adiciona sensor de proximidade padrão
-        SensorProximidade sensorPadrao = new SensorProximidade(3, ambiente);
-        this.adicionarSensor(sensorPadrao);
+        //SensorProximidade sensorPadrao = new SensorProximidade(3, ambiente);
+        //this.adicionarSensor(sensorPadrao);
     }
     public String getNome(){return nome;}
 
@@ -50,11 +50,7 @@ public abstract class Robo implements Entidade {
     }
 
     // usa todos os sensores do robô
-    public void usarSensores() {
-        for (Sensor s : sensores) {
-            s.monitorar(this);
-        }
-    }
+
 
     // receberDano: aplica dano ao robo
     public void receberDano(int dano) {
@@ -72,7 +68,7 @@ public abstract class Robo implements Entidade {
     }
 
     // mover o robô (usando o metodo do Ambiente.Ambiente)
-    public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
+    /*public void mover(int deltaX, int deltaY, int deltaZ, int tempo) {
         int novoX = posicaoX + deltaX;
         int novoY = posicaoY + deltaY;
         int novoZ = posicaoZ + deltaZ;
@@ -92,7 +88,7 @@ public abstract class Robo implements Entidade {
         //posicaoZ = novoZ;
 
         //System.out.println(nome + " se moveu");
-    }
+    }*/
 
     public void exibirPosicao() {
         System.out.println(nome + " está em (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
@@ -139,6 +135,8 @@ public abstract class Robo implements Entidade {
     public char getRepresentacao() {
         return 'R';
     }
+
+    public abstract void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r);
 
     ;
 

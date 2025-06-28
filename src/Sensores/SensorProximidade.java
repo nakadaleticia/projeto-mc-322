@@ -9,17 +9,14 @@ import AmbienteP.Ambiente;
 import Interfaces.Entidade;
 import ObstaculoP.Obstaculo;
 import Robos.Robo;
+import Robos.Logger;
 
 public class SensorProximidade extends Sensor {
-    public SensorProximidade(int raio, Ambiente ambiente) {
-        super(raio, ambiente);
+    public SensorProximidade(int raio, Ambiente ambiente, Logger logger) {
+        super(raio, ambiente, logger);
     }
 
-    private int calcularDistancia(int x1, int y1, int x2, int y2) {
-        int dx = x1 - x2;
-        int dy = y1 - y2;
-        return (int) Math.sqrt(dx * dx + dy * dy);
-    }
+
 
     @Override
     public void monitorar(Robo solicitante) {
@@ -38,6 +35,7 @@ public class SensorProximidade extends Sensor {
                     encontrouAlgo = true;
                     System.out.println("- Robô detectado: " + robo.getNome() + " a " + distancia + " unidades. Posição: (" +
                             robo.getX() + ", " + robo.getY() + ", " + robo.getZ() + ")");
+                    logger.registrar("DETECÇÃO: "+ robo.getNome()+ " detectado com sucesso pelo Sensor Proximidade!");
                 }
             } else if (entidade instanceof Obstaculo obstaculo) {
                 int centroX = (obstaculo.getPosicaoX1() + obstaculo.getPosicaoX2()) / 2;
@@ -49,6 +47,7 @@ public class SensorProximidade extends Sensor {
                     System.out.println("- Obstáculo detectado: " + obstaculo.getTipoObstaculo() +
                             " (altura=" + obstaculo.getAltura() + ", bloqueiaPassagem=" + obstaculo.getTipoObstaculo().isBloqueiaPassagem() + ")" +
                             " a " + distancia + " unidades. Posição aproximada: (" + centroX + ", " + centroY + ")");
+                    logger.registrar("DETECÇÃO: "+obstaculo.getTipoObstaculo()+ " detectado com sucesso pelo Sensor Proximidade!");
                 }
             }
         }

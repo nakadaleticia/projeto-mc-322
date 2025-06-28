@@ -12,15 +12,23 @@ import Interfaces.*;
 import Exception.RoboDesligadoException;
 import Exception.ErroComunicacaoException;
 
-public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicavel, Atacante, Autonomo {
+public class RoboTanque extends AgenteInteligente implements Sensoreavel, Comunicavel, Atacante, Autonomo {
     private int numMissil, blindagem;
     boolean modoDefesa;
+    int velocidadeMaxima;
+    private ModuloComunicacao modulo;
+    private GerenciadorSensor gerenciadorSensor;
+    private ControleMovimentoTerrestre controleMovimentoTerrestre;
 
-    public RoboTanque(String nome, String direcao, int vida, int posicaoX, int posicaoY, int velocidadeMaxima, Ambiente ambiente) {
-        super(nome, direcao, vida, posicaoX, posicaoY, velocidadeMaxima, ambiente);
+    public RoboTanque(String nome, String direcao, int vida, int posicaoX, int posicaoY, int velocidadeMaxima, Ambiente ambiente, ModuloComunicacao modulo, ControleMovimentoTerrestre controleMovimentoTerrestre, GerenciadorSensor gerenciadorSensor) {
+        super(nome, direcao, vida, posicaoX, posicaoY, 0, ambiente);
         this.numMissil = 2;
         this.blindagem = 4;
         this.modoDefesa = false;
+        this.modulo = modulo;
+        this.gerenciadorSensor = gerenciadorSensor;
+        this.controleMovimentoTerrestre = controleMovimentoTerrestre;
+        this.velocidadeMaxima = velocidadeMaxima;
     }
 
     public void ativarModoDefesa() {
@@ -80,21 +88,13 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
     }
     @Override
     public void acionarSensores() throws RoboDesligadoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não é possível acionar sensores.");
-        }
-        this.usarSensores();
+        gerenciadorSensor.usarSensores(this);
     }
 
     @Override
-    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (!this.estaLigado()) {
-            throw new RoboDesligadoException(nome + " está desligado! Não pode enviar mensagem.");
-        }
-        if (destinatario == null) {
-            throw new ErroComunicacaoException("Destinatário inválido.");
-        }
-        destinatario.receberMensagem("De " + nome + ": " + mensagem);
+    public void enviarMensagemPara(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        modulo.enviarMensagem(destinatario, mensagem);
+
     }
 
     @Override
@@ -110,5 +110,11 @@ public class RoboTanque extends RoboTerrestre implements Sensoreavel, Comunicave
     public void executarTarefa() {
         System.out.println(nome + " executando tarefa automática: atacando alvo padrão.");
         atacar(this);
+    }
+    @Override
+    public void executarMissao(Ambiente ambiente){}
+    @Override
+    public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
+        controleMovimentoTerrestre.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);
     }
 }
