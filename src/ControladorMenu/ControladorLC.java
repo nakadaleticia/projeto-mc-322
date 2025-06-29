@@ -190,6 +190,15 @@ public class ControladorLC {
                 System.out.println("Executando tarefa...\n");
                 robo.executarTarefa();
                 break;
+            case "10":
+                escolherMissao();
+                break;
+            case "11":
+                robo.executarMissao(ambiente);
+                break;
+            case "12":
+                robo.abortarMissao();
+                break;
             default:
                 System.out.println("Opção inválida.");
         }

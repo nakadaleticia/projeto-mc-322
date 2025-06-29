@@ -101,6 +101,9 @@ public class ControladorTanque {
         System.out.println("8 - Mandar mensagem");
         System.out.println("9 - Receber mensagem");
         System.out.println("10 - Executar tarefa");
+        System.out.println("11 - Definir missão");
+        System.out.println("12 - Executar missão");
+        System.out.println("13 - Abortar missão");
     }
 
     private void executarAcao(String opcao) {
@@ -188,6 +191,15 @@ public class ControladorTanque {
             case "10":
                 System.out.println("Executando tarefa...\n");
                 robo.executarTarefa();
+                break;
+            case "11":
+                escolherMissao();
+                break;
+            case "12":
+                robo.executarMissao(ambiente);
+                break;
+            case "13":
+                robo.abortarMissao();
                 break;
             default:
                 System.out.println("Opção inválida.");

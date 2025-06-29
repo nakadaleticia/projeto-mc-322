@@ -202,6 +202,15 @@ public class ControladorRA {
                 System.out.println("Executando tarefa...\n");
                 robo.executarTarefa();
                 break;
+            case "13":
+                escolherMissao();
+                break;
+            case "14":
+                robo.executarMissao(ambiente);
+                break;
+            case "15":
+                robo.abortarMissao();
+                break;
             default:
                 System.out.println("Opção inválida.");
         }
