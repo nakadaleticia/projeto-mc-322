@@ -34,8 +34,10 @@ public class ControladorTanque {
     }
     private void escolherMissao(){
         Scanner scanner = new Scanner(System.in);
-        String opcao = scanner.nextLine();
+
         System.out.println("--ESCOLHA UMA MISSÃO PARA O ROBO--");
+        System.out.println("1 - Explorar\n2 - Patrulhar\n3 - Monitorar\n4 - Buscar ponto");
+        String opcao = scanner.nextLine(); // ← agora vai funcionar corretamente
         switch(opcao){
             case "1":
                 MissaoExplorar m = new MissaoExplorar();

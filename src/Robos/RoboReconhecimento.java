@@ -67,7 +67,15 @@ public class RoboReconhecimento extends AgenteInteligente implements Sensoreavel
     }
 
     @Override
-    public void executarMissao(Ambiente ambiente){}
+    public void executarMissao(Ambiente ambiente) {
+        if (missao != null) {
+            System.out.println(nome + " está executando a missão:");
+            missao.executar(this, ambiente);
+        } else {
+            System.out.println(nome + " não tem missão definida.");
+        }
+    }
+
     @Override
     public void mover(int deltaX, int deltaY, int deltaZ, int tempo, Ambiente ambiente, Robo r){
         controleMovimentoAereo.mover(deltaX, deltaY, deltaZ, tempo, ambiente, r);

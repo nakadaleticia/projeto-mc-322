@@ -33,13 +33,15 @@ public class ControladorReconhecimento {
     }
     private void escolherMissao(){
         Scanner scanner = new Scanner(System.in);
-        String opcao = scanner.nextLine();
+
         System.out.println("--ESCOLHA UMA MISSÃO PARA O ROBO--");
+        System.out.println("1 - Explorar\n2 - Patrulhar\n3 - Monitorar\n4 - Buscar ponto");
+        String opcao = scanner.nextLine(); // ← agora vai funcionar corretamente
         switch(opcao){
             case "1":
                 MissaoExplorar m = new MissaoExplorar();
                 robo.definirMissao(m);
-                System.out.println("Missão definida!");
+                System.out.println("Missão definida! Use a opção 12 para executá-la.");
                 break;
             case "2":
                 List<int[]> pontosPatrulha = new ArrayList<int[]>() ;
@@ -63,12 +65,12 @@ public class ControladorReconhecimento {
 
                 MissaoPatrulhar m1 = new MissaoPatrulhar(pontosPatrulha);
                 robo.definirMissao(m1);
-                System.out.println("Missão definida!");
+                System.out.println("Missão definida! Use a opção 12 para executá-la.");
                 break;
             case "3":
                 MissaoMonitorar m2 = new MissaoMonitorar();
                 robo.definirMissao(m2);
-                System.out.println("Missão Definida!");
+                System.out.println("Missão definida! Use a opção 12 para executá-la.");
                 break;
             case "4":
                 System.out.print("Digite a coordenada X: ");
@@ -80,7 +82,7 @@ public class ControladorReconhecimento {
 
                 MissaoBuscarPonto m3 = new MissaoBuscarPonto(x,y);
                 robo.definirMissao(m3);
-                System.out.println("Missão definida!");
+                System.out.println("Missão definida! Use a opção 12 para executá-la.");
                 break;
 
         }
