@@ -7,4 +7,5 @@ Ao rodar o código, é possível escolher os robôs pelos índices e todas as fu
 Além disso, também é possível printar o mapa 2D de entidades, listar os robôs, listar as mensagens trocadas, excluir algum Robô e parar a execução  \n
 No menu, não foi colocado nenhuma ação com obstáculos, pois julgamos a função um pouco complexa, então deixamos ela na main principal.\n
 Nosso diagrama de Classes:\n
+Observação: nós pré definimos um roteirio para criação dos robôs na main, levando em consideração um ambiente de dimensões mínimas 20x20x20.\n
 ![Diagrama PlantUML](plantuml_image.png)
